@@ -26,7 +26,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/main.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -119,6 +121,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "Frontend-Web"
+    }
+  },
+  "defaultProject": "Frontend-Web",
+  "cli": {
+    "analytics": "e6ba0830-3179-4fac-af18-8869a216158f"
+  }
 }
