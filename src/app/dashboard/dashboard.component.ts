@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
+import {LoginHandler} from '../../classes/login-handler';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,6 +13,10 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.fullHeight();
+    let loginHandler = new LoginHandler();
+    loginHandler.status().then(res => {
+      console.log(res);
+    })
   }
 
   onToggleClick(): void {
