@@ -1,29 +1,35 @@
 export class CookieHandler {
   constructor() {}
 
-  getLoginCreds(): string[] {
+  setLoginCreds(username: string, password: string, token: string, ext: number): void {
+    this.setCookie('username', username, ext);
+    this.setCookie('password', password, ext);
+    this.setCookie('token', token, ext);
+    this.setCookie('ext', ext, ext);
+  }
+
+  getLoginCreds(ext: number = 1): string[] {
     let arr = [];
     if (this.getCookie('username') != ''){
       arr[0] = this.getCookie('username');
     } else {
       arr[0] = 'None';
-      this.setCookie('username', 'None', 1);
+      this.setCookie('username', 'None', ext);
     }
     if (this.getCookie('password') != ''){
       arr[1] = this.getCookie('password');
     } else {
       arr[1] = 'None';
-      this.setCookie('password', 'None', 1);
+      this.setCookie('password', 'None', ext);
     }
     if (this.getCookie('token') != ''){
       arr[2] = this.getCookie('token');
     } else {
       arr[2] = 'None';
-      this.setCookie('token', 'None', 1);
+      this.setCookie('token', 'None', ext);
     }
     return arr;
   }
-
 
   private setCookie(cname, cvalue, exdays) {
     var d = new Date();

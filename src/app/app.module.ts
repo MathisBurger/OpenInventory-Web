@@ -4,9 +4,12 @@ import {RouterModule, Routes} from '@angular/router';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
+import { DashboardHomeComponent } from './dashboard/dashboard-home/dashboard-home.component';
+import { DashboardNewTableComponent } from './dashboard/dashboard-new-table/dashboard-new-table.component';
 
 const routes: Routes = [
-  {path: '', component: DashboardComponent},
+  {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+  {path: 'dashboard', component: DashboardComponent},
   {path: 'login', component: LoginComponent}
 ];
 
@@ -15,6 +18,8 @@ const routes: Routes = [
     AppComponent,
     DashboardComponent,
     LoginComponent,
+    DashboardHomeComponent,
+    DashboardNewTableComponent,
   ],
   imports: [
     BrowserModule,

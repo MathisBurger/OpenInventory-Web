@@ -8,15 +8,22 @@ import {LoginHandler} from '../../classes/login-handler';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
+  active = 'dashboard-home';
   constructor() { }
 
   ngOnInit(): void {
     this.fullHeight();
-    let loginHandler = new LoginHandler();
-    loginHandler.status().then(res => {
-      console.log(res);
-    })
+    new LoginHandler().status().then(res => {
+      if (!res) {
+        location.href = '/login';
+      }
+    });
+  }
+
+  onNavClick(param: string): void {
+    document.querySelector('#active-' + this.active).classList.remove('active');
+    document.querySelector('#active-' + param).classList.add('active');
+    this.active = param;
   }
 
   onToggleClick(): void {
