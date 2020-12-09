@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Var} from '../../../classes/var';
+import {CookieHandler} from '../../../classes/cookie-handler';
 
 @Component({
   selector: 'app-dashboard-new-table',
@@ -24,6 +26,36 @@ export class DashboardNewTableComponent implements OnInit {
       }
       this.show_column_selection = true;
     }
+  }
+
+  createTable(): void {
+    let name = (document.getElementById('newtable-name') as HTMLInputElement).value;
+    let tuples = [];
+    let field_names = (document.getElementsByClassName('newtable-field-name') as HTMLCollectionOf<HTMLInputElement>);
+    let field_types = (document.getElementsByClassName('newtable-field-type') as HTMLCollectionOf<HTMLSelectElement>);
+    for (let i=0; i<field_names.length; i++) {
+      tuples[tuples.length] = '(' + field_types[i].value + ';' +  field_names[i].value + ')';
+    }
+    let origin = new Var().API_Origin;
+    let creds = new CookieHandler().getLoginCreds();
+    fetch(origin + '/table_management/create_table', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        Accept: 'applicaton/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: creds[0],
+        password: creds[1],
+        token: creds[2],
+        table_name: name,
+        row_config: tuples.toString()
+      })
+    }).then(res => res.json())
+      .then(data => {
+        console.log(data);
+      })
   }
 
 }

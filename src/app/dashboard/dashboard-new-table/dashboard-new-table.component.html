@@ -2,28 +2,36 @@
   <h1>Add new table</h1>
   <div class="form-group" style="padding-top: 2em;">
     <div class="row">
-        <input type="number" class="form-control" style="width: 25em;" id="new-table-colum-lengh-input" placeholder="number of colums">
+        <input type="number" class="form-control border-primary" style="width: 25em;" id="new-table-colum-lengh-input" placeholder="number of colums">
       <button class="btn btn-primary" style="margin-left: 1em;" (click)="onColumnNumSubmit()">submit</button>
     </div>
   </div>
   <div *ngIf="show_column_selection == true" class="form-group">
    <div class="card">
      <div class="card-body">
+       <label>
+         Name: <input placeholder="Name" class="form-control" type="text" id="newtable-name">
+       </label>
        <div *ngFor="let index of column_length" class="row" style="padding-top: 1em;">
-         <select size="1" class="form-control" style="width: 10em;">
+         <select size="1" class="form-control newtable-field-type" style="width: 10em;">
            <option>INT</option>
            <option>FLOAT</option>
            <option>BOOLEAN</option>
            <optgroup label="Strings">
-             <option>STRING (8 Chars)</option>
-             <option>STRING (16 Chars)</option>
-             <option>STRING (64 Chars)</option>
-             <option>STRING (128 Chars)</option>
-             <option>STRING (1024 Chars)</option>
+             <option value="STRING8Chars">STRING (8 Chars)</option>
+             <option value="STRING16Chars">STRING (16 Chars)</option>
+             <option value="STRING64Chars">STRING (64 Chars)</option>
+             <option value="STRING128Chars">STRING (128 Chars)</option>
+             <option value="STRING1024Chars">STRING (1024 Chars)</option>
            </optgroup>
          </select>
-         <input type="text" class="form-control" placeholder="column name" style="margin-left: 1em; width: 50em;">
+         <label>
+           <input type="text" class="form-control newtable-field-name" placeholder="column name" style="margin-left: 1em; width: 50em; height: auto">
+         </label>
        </div>
+       <label>
+          <button class="btn btn-primary float-right mt-2" (click)="createTable()">create table</button>
+       </label>
      </div>
    </div>
   </div>
