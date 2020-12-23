@@ -7,7 +7,7 @@ export class LoginHandler {
   async status(): Promise<boolean> {
     let var1 = new Var().API_Origin;
     let creds = new CookieHandler().getLoginCreds(1);
-    let res = await fetch(var1 + '/check_creds', {
+    let res = await fetch(var1 + '/check-creds', {
       method: 'POST',
       mode: 'cors',
       headers: {

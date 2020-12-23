@@ -8,7 +8,7 @@ import {LoginHandler} from '../../classes/login-handler';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  active = 'new-table';
+  active = 'dashboard-home';
   constructor() { }
 
   ngOnInit(): void {

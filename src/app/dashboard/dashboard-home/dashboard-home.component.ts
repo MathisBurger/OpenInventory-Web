@@ -16,7 +16,7 @@ export class DashboardHomeComponent implements OnInit {
     let var1 = new Var();
     let loginCreds = new CookieHandler().getLoginCreds();
     console.log('got login creds');
-    fetch(var1.API_Origin + '/table_management/get_all_tables', {
+    fetch(var1.API_Origin + '/table-management/getAllTables', {
       method: 'POST',
       mode: 'cors',
       headers: {
