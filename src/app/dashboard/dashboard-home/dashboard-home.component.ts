@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Var} from '../../../classes/var';
 import {CookieHandler} from '../../../classes/cookie-handler';
-import {split} from 'ts-node';
+import {createComponent} from '@angular/compiler/src/core';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -52,6 +52,10 @@ export class DashboardHomeComponent implements OnInit {
         let date = arr[2].split(' ')[0]
         return date;
     }
+  }
+
+  openTable(name: string): void {
+    console.log(name);
 
   }
 

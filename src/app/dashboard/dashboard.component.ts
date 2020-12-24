@@ -9,6 +9,8 @@ import {LoginHandler} from '../../classes/login-handler';
 })
 export class DashboardComponent implements OnInit {
   active = 'dashboard-home';
+  table_name = 'None';
+  table_action = 'None';
   constructor() { }
 
   ngOnInit(): void {

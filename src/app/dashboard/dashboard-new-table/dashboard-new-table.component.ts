@@ -38,7 +38,7 @@ export class DashboardNewTableComponent implements OnInit {
     }
     let origin = new Var().API_Origin;
     let creds = new CookieHandler().getLoginCreds();
-    fetch(origin + '/table_management/create_table', {
+    fetch(origin + '/table-management/createTable', {
       method: 'POST',
       mode: 'cors',
       headers: {

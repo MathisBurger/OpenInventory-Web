@@ -14,8 +14,8 @@
       <li id="active-new-table">
         <a (click)="onNavClick('new-table')"><span class="fa fa-sticky-note mr-3"></span>New Table</a>
       </li>
-      <li>
-        <a href="#"><span class="fa fa-sticky-note mr-3"></span> Subcription</a>
+      <li id="active-table-all">
+        <a (click)="onNavClick('table-all')"><span class="fa fa-sticky-note mr-3"></span>Tables</a>
       </li>
       <li>
         <a href="#"><span class="fa fa-paper-plane mr-3"></span> Settings</a>
@@ -32,6 +32,7 @@
     <div [ngSwitch]="active">
       <app-dashboard-home *ngSwitchCase="'dashboard-home'"></app-dashboard-home>
       <app-dashboard-new-table *ngSwitchCase="'new-table'"></app-dashboard-new-table>
+      <app-table  *ngSwitchCase="'table-all'" [table]="table_name" [action]="table_action"></app-table>
     </div>
   </div>
 </div>
