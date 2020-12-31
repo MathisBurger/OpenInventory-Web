@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Var} from '../../../classes/var';
 import {CookieHandler} from '../../../classes/cookie-handler';
-import {createComponent} from '@angular/compiler/src/core';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -55,8 +54,9 @@ export class DashboardHomeComponent implements OnInit {
   }
 
   openTable(name: string): void {
-    console.log(name);
-
+    new CookieHandler().setCookie('active-table', name, 365);
+    new CookieHandler().setCookie('redirect-table', 'true', 365);
+    location.reload();
   }
 
 }

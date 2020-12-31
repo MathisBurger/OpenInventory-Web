@@ -29,6 +29,9 @@ export class DashboardNewTableComponent implements OnInit {
   }
 
   createTable(): void {
+    var alert = document.getElementById('new-table-alert');
+    alert.classList.remove('alert', 'alert-danger', 'alert-success');
+    alert.innerHTML = '';
     let name = (document.getElementById('newtable-name') as HTMLInputElement).value;
     let tuples = [];
     let field_names = (document.getElementsByClassName('newtable-field-name') as HTMLCollectionOf<HTMLInputElement>);
@@ -38,6 +41,7 @@ export class DashboardNewTableComponent implements OnInit {
     }
     let origin = new Var().API_Origin;
     let creds = new CookieHandler().getLoginCreds();
+    console.log(tuples.toString());
     fetch(origin + '/table-management/createTable', {
       method: 'POST',
       mode: 'cors',
@@ -54,7 +58,25 @@ export class DashboardNewTableComponent implements OnInit {
       })
     }).then(res => res.json())
       .then(data => {
-        console.log(data);
+        if (data.message === 'creation failed') {
+          var alert = document.getElementById('new-table-alert');
+          alert.classList.add('alert', 'alert-danger');
+          alert.innerHTML = 'Error while creating table.';
+        } else if (data.message === 'successful') {
+          var alert = document.getElementById('new-table-alert');
+          alert.classList.add('alert', 'alert-success');
+          alert.innerHTML = 'Successfully created table.';
+          (document.getElementById('newtable-name') as HTMLInputElement).value = '';
+          let names = (document.getElementsByClassName('newtable-field-name') as HTMLCollectionOf<HTMLInputElement>)
+          for (let i=0; i<names.length; i++) {
+            names[i].value = '';
+          }
+          setTimeout(() => {
+            var alert = document.getElementById('new-table-alert');
+            alert.classList.remove('alert', 'alert-danger', 'alert-success');
+            alert.innerHTML = '';
+          }, 1000);
+        }
       })
   }
 

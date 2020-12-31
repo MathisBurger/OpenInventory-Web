@@ -9,19 +9,16 @@
     <h1><a href="index.html" class="logo">Open Inventory</a></h1>
     <ul class="list-unstyled components mb-5">
       <li id="active-dashboard-home" class="active">
-        <a (click)="onNavClick('dashboard-home')"><span class="fa fa-user mr-3"></span> Dashboard</a>
+        <a (click)="onNavClick('dashboard-home')">Dashboard</a>
       </li>
       <li id="active-new-table">
-        <a (click)="onNavClick('new-table')"><span class="fa fa-sticky-note mr-3"></span>New Table</a>
+        <a (click)="onNavClick('new-table')">New Table</a>
       </li>
       <li id="active-table-all">
-        <a (click)="onNavClick('table-all')"><span class="fa fa-sticky-note mr-3"></span>Tables</a>
+        <a (click)="onNavClick('table-all')">Tables</a>
       </li>
       <li>
-        <a href="#"><span class="fa fa-paper-plane mr-3"></span> Settings</a>
-      </li>
-      <li>
-        <a href="#"><span class="fa fa-paper-plane mr-3"></span> Information</a>
+        <a>Settings</a>
       </li>
     </ul>
 
@@ -32,8 +29,7 @@
     <div [ngSwitch]="active">
       <app-dashboard-home *ngSwitchCase="'dashboard-home'"></app-dashboard-home>
       <app-dashboard-new-table *ngSwitchCase="'new-table'"></app-dashboard-new-table>
-      <app-table  *ngSwitchCase="'table-all'" [table]="table_name" [action]="table_action"></app-table>
+      <app-table  *ngSwitchCase="'table-all'"></app-table>
     </div>
   </div>
 </div>
-

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import * as $ from 'jquery';
+//import * as $ from 'jquery';
 import {LoginHandler} from '../../classes/login-handler';
-
+import {CookieHandler} from '../../classes/cookie-handler';
+declare var $: any;
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -9,8 +10,6 @@ import {LoginHandler} from '../../classes/login-handler';
 })
 export class DashboardComponent implements OnInit {
   active = 'dashboard-home';
-  table_name = 'None';
-  table_action = 'None';
   constructor() { }
 
   ngOnInit(): void {
@@ -20,23 +19,30 @@ export class DashboardComponent implements OnInit {
         location.href = '/login';
       }
     });
+    this.checkRedirectTable();
   }
-
+  onToggleClick(): void {
+    $('#sidebar').toggleClass('active');
+  }
   onNavClick(param: string): void {
     document.querySelector('#active-' + this.active).classList.remove('active');
     document.querySelector('#active-' + param).classList.add('active');
     this.active = param;
   }
-
-  onToggleClick(): void {
-    $('#sidebar').toggleClass('active');
-  }
-
   fullHeight(): void {
     $('.js-fullheight').css('height', $(window).height());
     $(window).resize(function(){
       $('.js-fullheight').css('height', $(window).height());
     });
+  }
+
+  checkRedirectTable(): void {
+    let inst = new CookieHandler().getCookie('redirect-table');
+    if (inst == 'true') {
+      document.querySelector('#active-' + this.active).classList.remove('active');
+      document.querySelector('#active-' + 'table-all').classList.add('active');
+      this.active = 'table-all';
+    }
   }
 
 
