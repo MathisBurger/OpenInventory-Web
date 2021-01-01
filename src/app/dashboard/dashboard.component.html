@@ -17,9 +17,10 @@
       <li id="active-table-all">
         <a (click)="onNavClick('table-all')">Active Table</a>
       </li>
-      <li>
-        <a>Settings</a>
+      <li id="active-settings">
+        <a (click)="onNavClick('settings')">Settings</a>
       </li>
+
     </ul>
 
   </nav>
@@ -30,6 +31,7 @@
       <app-dashboard-home *ngSwitchCase="'dashboard-home'"></app-dashboard-home>
       <app-dashboard-new-table *ngSwitchCase="'new-table'"></app-dashboard-new-table>
       <app-table  *ngSwitchCase="'table-all'"></app-table>
+      <app-settings *ngSwitchCase="'settings'"></app-settings>
     </div>
   </div>
 </div>

@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { DashboardHomeComponent } from './dashboard/dashboard-home/dashboard-home.component';
 import { DashboardNewTableComponent } from './dashboard/dashboard-new-table/dashboard-new-table.component';
 import { TableComponent } from './table/table.component';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
@@ -22,6 +23,7 @@ const routes: Routes = [
     DashboardHomeComponent,
     DashboardNewTableComponent,
     TableComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
