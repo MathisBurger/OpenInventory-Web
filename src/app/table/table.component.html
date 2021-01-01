@@ -14,12 +14,33 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="delete-table-modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete Table</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Do you really want to delete this table?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" (click)="deleteTable()">Delete table</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="container">
   <div class="row">
     <h1>Table: {{table_name}}</h1>
     <button type="button" class="btn btn-primary modified-btn" data-toggle="modal" data-target="#table-modal">
-      Add Entry
+      Add entry
+    </button>
+    <button type="button" class="btn btn-danger modified-btn" data-toggle="modal" data-target="#delete-table-modal">
+      Delete table
     </button>
   </div>
   <div id="alert-div"></div>

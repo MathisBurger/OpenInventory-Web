@@ -187,6 +187,21 @@ export class TableComponent implements OnInit {
     location.reload();
   }
 
+  deleteTable(): void {
+    let creds = new CookieHandler().getLoginCreds();
+    fetch(new Var().API_Origin + '/table-management/DeleteTable', {
+      mode: 'cors',
+      method: 'POST',
+      body: JSON.stringify({
+        username: creds[0],
+        password: creds[1],
+        token: creds[2],
+        table_name: this.table_name,
+      })
+    });
+    location.reload();
+  }
+
   getIdFromRow(row: any): number {
     let index = 0;
     for (let i=0; i<this.columns.length; i++) {
