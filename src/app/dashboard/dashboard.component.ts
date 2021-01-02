@@ -9,7 +9,7 @@ declare var $: any;
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  active = 'settings';
+  active = 'dashboard-home';
   constructor() { }
 
   ngOnInit(): void {

@@ -12,5 +12,5 @@ app.get('/*', function(req,res) {
 app.get('/api/*', function(req,res) {
   res.redirect("http://localhost:8080");
 });
-app.listen(187);
+app.listen(80);
 console.log("Started Webserver on port 8080");

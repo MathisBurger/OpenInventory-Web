@@ -1,0 +1,10 @@
+.modified-btn {
+  margin-left: 1em;
+  height: 2.5em;
+}
+
+.scroll-table{
+  overflow-y:scroll;
+  height:100px;
+  display:block;
+}
