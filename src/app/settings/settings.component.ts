@@ -53,7 +53,21 @@ export class SettingsComponent implements OnInit {
             status: final_status
           }
         })
-      })
+      }).then(res => res.json())
+        .then(data => {
+          if (data.message == 'Successfully added user') {
+              location.reload();
+          } else {
+            let alert = (document.querySelector('#addUser-alert') as HTMLDivElement);
+            let class_list = data.alert.split(' ');
+            alert.innerHTML = data.message;
+            alert.classList.add(class_list[0], class_list[1]);
+            setTimeout(() => {
+              alert.innerHTML = '';
+              alert.classList.remove(class_list[0], class_list[1]);
+            }, 2000);
+          }
+        })
     }
   }
 
