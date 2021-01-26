@@ -1,0 +1,26 @@
+.fill-screen {
+  background-image: linear-gradient(to right, #2f89fc, #17a2b8);
+  height: 100vh;
+}
+
+.padded {
+  padding-top: 1em;
+}
+
+.margin-bottom-form {
+  margin-bottom: 2em;
+}
+
+#login .container #login-row #login-column #login-box {
+  margin-top: 50px;
+  max-width: 600px;
+  height: 350px;
+  background-color: #EAEAEA;
+  border-radius: 15px;
+}
+#login .container #login-row #login-column #login-box #login-form {
+  padding: 20px;
+}
+#login .container #login-row #login-column #login-box #login-form #register-link {
+  margin-top: -85px;
+}
