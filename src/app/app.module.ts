@@ -5,12 +5,24 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { TablesComponent } from './tables/tables.component';
+import { NewTableComponent } from './new-table/new-table.component';
+import { UserComponent } from './user/user.component';
+import { PermissionsComponent } from './permissions/permissions.component';
+import { TableViewComponent } from './table-view/table-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    LoginComponent
+    LoginComponent,
+    SidebarComponent,
+    TablesComponent,
+    NewTableComponent,
+    UserComponent,
+    PermissionsComponent,
+    TableViewComponent
   ],
   imports: [
     BrowserModule,

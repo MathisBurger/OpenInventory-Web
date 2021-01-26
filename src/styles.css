@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+.modified-btn {
+  margin-left: 2em;
+  margin-top: 0.4em;
+  height: 2.5em;
+}
+
+.perm-field {
+  border-radius: 25px;
+  width: auto;
+  height: 30px;
+  padding-right: 10px;
+  padding-left: 10px;
+  color: white;
+}

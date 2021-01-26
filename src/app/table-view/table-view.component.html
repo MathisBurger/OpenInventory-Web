@@ -1,0 +1,127 @@
+<div class="modal fade" id="table-modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Entry</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="rl()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="new-entry-modal"></div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" (click)="addEntry()">Add Entry</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="delete-table-modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Table information</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="" id="table-view-modal-alert"></div>
+          <div class="row">
+            <label>
+              Tablename: <input id="table-name-input" type="text" class="form-control" (keydown)="onTablenameChange()" (keyup)="onTablenameChange()">
+            </label>
+            <button class="btn btn-primary disabled modified-btn" style="margin-left: 1em; margin-top: 1.5em;" disabled id="table-tablename-btn" (click)="updateTableName()">update</button>
+          </div>
+        <div class="row">
+          <label>
+            Columnname:
+            <select size="1" class="form-control" (change)="onColumnNameSwitch($event)" id="new-columnname-select">
+              <option *ngFor="let column of columns">{{column}}</option>
+            </select>
+          </label>
+          <label>
+            <input type="text" class="form-control" style="margin-top: 1.5em; margin-left: 1em;" id="column-name-input" (keyup)="onColumnNameInputChange()" (keydown)="onColumnNameInputChange()">
+          </label>
+          <button class="btn btn-primary disabled modified-btn" style="margin-top: 1.5em;" disabled id="column-name-update-btn" (click)="updateColumnName()">update</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div *ngFor="let group of permGroups" class="perm-field" [style]="'background: #' + group.color + ';'">{{group.name}}</div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" (click)="deleteTable()">Delete table</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="edit-entry-modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit table entry</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="" id="secound-table-view-modal-alert-dialog"></div>
+        <div class="row" style="margin-left: 1em;" *ngFor="let i of length_counter">
+          <label *ngIf="columns[anyToNumber(i)] != 'id'">
+            {{columns[anyToNumber(i)]}}
+            <input type="text" class="form-control column-identity" [value]="edit_row[anyToNumber(i)]" [id]="'identity-' + columns[anyToNumber(i)]">
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="editTableEntry()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper">
+  <div class="content-wrapper">
+<app-sidebar active="active-table"></app-sidebar>
+<div class="container">
+  <div class="row">
+    <h1>Table: {{table_name}}</h1>
+    <button type="button" class="btn btn-primary modified-btn" data-toggle="modal" data-target="#table-modal">
+      Add entry
+    </button>
+    <button type="button" class="btn btn-info modified-btn" data-toggle="modal" data-target="#delete-table-modal" (click)="loadPermissions(table_name, min_perm_lvl)">
+      Information
+    </button>
+  </div>
+  <div id="alert-div"></div>
+  <div class="table-wrapper-scroll-y my-custom-scrollbar">
+    <div *ngIf="empty == 'true'">
+      <div class="card">
+        <div class="card-body">
+          <h3>Table is empty.</h3>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="empty == 'false'">
+      <table class="table table-bordered table-striped mb-0">
+        <thead>
+        <tr>
+          <th *ngFor="let column of columns">{{column}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of rows">
+          <td *ngFor="let element of row">{{element}}</td>
+          <td>
+            <div class="row">
+              <button class="btn btn-primary" style="margin-left: 1em;" data-toggle="modal" data-target="#edit-entry-modal" (click)="initalizeEntryEditing(row)">edit</button>
+              <button (click)="removeEntry(getIdFromRow(row))" class="btn btn-danger" style="margin-left: 1em;">delete</button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+  </div>
+</div>
