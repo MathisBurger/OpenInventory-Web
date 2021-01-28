@@ -1,0 +1,21 @@
+td{
+  word-wrap: break-word;
+  display: inline-block;
+}
+th{
+  word-wrap: break-word;
+  display: inline-block;
+}
+
+.larger-td {
+  width: 200px;
+  word-wrap: break-word;
+  display: inline-block;
+}
+
+.class {
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+  background-color: red;
+}

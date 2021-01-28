@@ -91,6 +91,7 @@
     <button type="button" class="btn btn-info modified-btn" data-toggle="modal" data-target="#delete-table-modal" (click)="loadPermissions(table_name, min_perm_lvl)">
       Information
     </button>
+    <input type="text" placeholder="search" class="form-control" style="width: 20em; margin-left: 1em; margin-top: 0.5em;" (keydown)="onSearchType($event)">
   </div>
   <div id="alert-div"></div>
   <div class="table-wrapper-scroll-y my-custom-scrollbar">
@@ -102,16 +103,16 @@
       </div>
     </div>
     <div *ngIf="empty == 'false'">
-      <table class="table table-bordered table-striped mb-0">
+      <table class="table table-bordered table-striped mb-0" style="width: 1102px;">
         <thead>
         <tr>
-          <th *ngFor="let column of columns">{{column}}</th>
+          <th *ngFor="let column of columns" [style]="calculateColumnWidthCSS(columns)">{{column}}</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let row of rows">
-          <td *ngFor="let element of row">{{element}}</td>
-          <td>
+          <td *ngFor="let element of row" [style]="calculateColumnWidthCSS(columns)">{{element}}</td>
+          <td class="larger-td">
             <div class="row">
               <button class="btn btn-primary" style="margin-left: 1em;" data-toggle="modal" data-target="#edit-entry-modal" (click)="initalizeEntryEditing(row)">edit</button>
               <button (click)="removeEntry(getIdFromRow(row))" class="btn btn-danger" style="margin-left: 1em;">delete</button>

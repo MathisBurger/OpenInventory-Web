@@ -12,6 +12,7 @@ export class TableViewComponent implements OnInit {
   table_name = '';
   columns = [];
   rows = [];
+  cached_rows = [];
   empty = 'true';
   min_perm_lvl: string;
   length_counter = [];
@@ -54,6 +55,7 @@ export class TableViewComponent implements OnInit {
             rows.push(row);
           }
           this.rows = rows;
+          this.cached_rows = rows;
         } else {
           let alert = (document.getElementById('alert-div') as HTMLDivElement);
           let alert_arr = data.alert.split(' ');
@@ -94,6 +96,20 @@ export class TableViewComponent implements OnInit {
     return el as number;
   }
 
+  onSearchType(event: any): void {
+    let searchvalue = event.target.value;
+    console.log(searchvalue);
+    this.rows = [];
+    for (let i=0; i<this.cached_rows.length; i++) {
+      for (let j=0; j<this.cached_rows[i].length; j++) {
+        if (('' + this.cached_rows[i][j]).includes(searchvalue)) {
+          this.rows[this.rows.length] = this.cached_rows[i];
+          break;
+        }
+      }
+    }
+  }
+
   editTableEntry(): void {
     let creds = new CookieHandler().getLoginCreds();
     let active_table = new CookieHandler().getCookie('active-table');
@@ -129,6 +145,11 @@ export class TableViewComponent implements OnInit {
           }, 1000);
         }
       });
+  }
+
+  calculateColumnWidthCSS(arr: any): string {
+    let len = arr.length;
+    return 'width: ' + (900 / len)  + 'px;';
   }
 
   initalizeEntryEditing(row: any): void {
