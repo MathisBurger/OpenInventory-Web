@@ -11,6 +11,7 @@ import { NewTableComponent } from './new-table/new-table.component';
 import { UserComponent } from './user/user.component';
 import { PermissionsComponent } from './permissions/permissions.component';
 import { TableViewComponent } from './table-view/table-view.component';
+import { SystemInfoComponent } from './system-info/system-info.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { TableViewComponent } from './table-view/table-view.component';
     NewTableComponent,
     UserComponent,
     PermissionsComponent,
-    TableViewComponent
+    TableViewComponent,
+    SystemInfoComponent
   ],
   imports: [
     BrowserModule,

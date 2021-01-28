@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {CookieHandler} from "../../classes/cookie-handler";
 import {Constants} from "../../classes/constants";
 import {min} from "rxjs/operators";
+import {LoginHandler} from "../../classes/login-handler";
 
 @Component({
   selector: 'app-new-table',
@@ -16,6 +17,7 @@ export class NewTableComponent implements OnInit {
   perm_lvls = [];
 
   ngOnInit(): void {
+    new LoginHandler().checkCreds().then();
     for (let i=1; i<=100; i++) {
       this.perm_lvls[(i-1)] = i;
     }

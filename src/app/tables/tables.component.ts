@@ -18,6 +18,7 @@ export class TablesComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    new LoginHandler().checkCreds().then();
     for (let i=1; i<=100; i++) {
       this.perm_lvls[(i-1)] = i;
     }

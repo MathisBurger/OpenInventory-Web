@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {CookieHandler} from "../../classes/cookie-handler";
 import {Constants} from "../../classes/constants";
 import {Utils} from "../../classes/utils";
+import {LoginHandler} from "../../classes/login-handler";
 
 @Component({
   selector: 'app-table-view',
@@ -22,6 +23,7 @@ export class TableViewComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    new LoginHandler().checkCreds().then();
     let creds = new CookieHandler().getLoginCreds();
     this.table_name = new CookieHandler().getCookie('active-table');
     (document.querySelector('#table-name-input') as HTMLInputElement).value = this.table_name;

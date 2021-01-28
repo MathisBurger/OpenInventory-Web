@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {CookieHandler} from "../../../classes/cookie-handler";
 
 @Component({
   selector: 'app-sidebar',
@@ -12,6 +13,11 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     let element = document.querySelector('#link-' + this.active) as HTMLAnchorElement;
     element.classList.add('active');
+  }
+
+  logout(): void {
+    new CookieHandler().setLoginCreds('', '', '', 1);
+    location.href = '/login';
   }
 
 }

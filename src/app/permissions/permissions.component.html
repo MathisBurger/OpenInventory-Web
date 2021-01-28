@@ -1,5 +1,69 @@
+<div class="modal fade" id="new-permission-modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Permission-group</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="" id="new-permission-modal-alert"></div>
+        <label>
+          Name:
+          <input type="text" class="form-control" placeholder="permission name" id="new-permission-modal-name-input">
+        </label>
+        <br>
+        <label>
+          Permission-level:
+          <select size="1" class="form-control" id="new-permission-modal-lvl-input">
+            <option *ngFor="let num of numArr">{{num}}</option>
+          </select>
+        </label>
+        <br>
+        <label>
+          Color:
+          <input type="color" style="margin-left: 1em; opacity: 0.8" value="#18b8f3" id="new-permission-modal-color-input">
+        </label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="addPermissionGroup()">create</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="wrapper">
   <div class="content-wrapper">
 <app-sidebar active="permissions"></app-sidebar>
+    <div class="container">
+      <div class="row">
+        <h1>Permission management</h1>
+        <button class="btn btn-primary modified-btn" style="margin-left: 1em;" data-toggle="modal" data-target="#new-permission-modal">New</button>
+      </div>
+      <div class="" id="permission-page-main-alert"></div>
+      <div class="table-wrapper-scroll-y my-custom-scrollbar">
+        <table class="table table-bordered table-striped mb-0" style="width: 1102px;">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Color</th>
+            <th>Name</th>
+            <th>Permission-level</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let perm of permGroups">
+              <td>{{perm.ID}}</td>
+              <td><div class="permission-color-cycle" [style]="'background-color: rgba(' + perm.color + ', 0.815); box-shadow: 0px 0px 0px 4px rgba(' + perm.color + ',1);'"></div></td>
+              <td>{{perm.name}}</td>
+              <td>{{perm['permission-level']}}</td>
+              <td><button class="btn btn-danger" (click)="deletePermissionGroup(perm.name)">delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>

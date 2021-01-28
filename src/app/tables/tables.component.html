@@ -20,7 +20,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <div *ngFor="let group of permGroups" class="perm-field" [style]="'background: #' + group.color + ';'">{{group.name}}</div>
+        <div *ngFor="let group of permGroups" class="perm-field"
+             [style]="'background-color: rgba(' + group.color + ', 0.815); box-shadow: 2px 2px 2px 2px rgba(' + group.color + ',1);'">{{group.name}}</div>
       </div>
     </div>
   </div>
