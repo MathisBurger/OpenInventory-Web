@@ -13,9 +13,3 @@ th{
   display: inline-block;
 }
 
-.class {
-  appearance:none;
-  -moz-appearance:none;
-  -webkit-appearance:none;
-  background-color: red;
-}

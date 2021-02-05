@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {CookieHandler} from "../../classes/cookie-handler";
 import {Constants} from "../../classes/constants";
-import {min} from "rxjs/operators";
 import {LoginHandler} from "../../classes/login-handler";
 
 @Component({
@@ -25,8 +24,8 @@ export class NewTableComponent implements OnInit {
 
   onColumnNumSubmit(): void {
     let val = (document.getElementById('new-table-colum-lengh-input') as HTMLInputElement).valueAsNumber;
-    if (val == 0 || val == Number.NaN || val < 0 || !Number.isInteger(val)) {
-      alert('You have to input an value greater than 0 as integer')
+    if (val == 0 || val == Number.NaN || val < 0 || !Number.isInteger(val) || val == Number.EPSILON || val > 100) {
+      alert('You have to input an value greater than 0 and smaller than 100 as integer')
     } else {
       for (let i=0; i<val; i++){
         this.column_length[i] = (i as number);
