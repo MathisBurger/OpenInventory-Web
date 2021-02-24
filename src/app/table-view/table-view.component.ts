@@ -26,6 +26,7 @@ export class TableViewComponent implements OnInit {
     new LoginHandler().checkCreds().then();
     let creds = new CookieHandler().getLoginCreds();
     this.table_name = new CookieHandler().getCookie('active-table');
+    this.getColumns().then();
     (document.querySelector('#table-name-input') as HTMLInputElement).value = this.table_name;
     fetch(new Constants().API_Origin + '/table-management/getTableContent', {
       mode: 'cors',
@@ -44,15 +45,11 @@ export class TableViewComponent implements OnInit {
           }
           this.empty = 'false';
           let json = JSON.parse(data.elements);
-          var columns = [];
-
-          for (var k in json[0]) columns.push(k);
-          this.columns = columns;
           var rows = [];
           for (let i=0; i<json.length; i++) {
             var row = [];
-            for (let x=0; x<columns.length; x++) {
-              row.push(this.parseRowElement(json[i][columns[x]], columns[x]));
+            for (let x=0; x<this.columns.length; x++) {
+              row.push(this.parseRowElement(json[i][this.columns[x].COLUMN_NAME], this.columns[x].COLUMN_NAME));
             }
             rows.push(row);
           }
@@ -91,7 +88,22 @@ export class TableViewComponent implements OnInit {
           (document.querySelector('#column-name-input') as HTMLInputElement).value = this.columns[0];
         }
       });
+  }
 
+  async getColumns(): Promise<void> {
+    let creds = new CookieHandler().getLoginCreds();
+    let resp = await fetch(new Constants().API_Origin + '/table-management/getTableColumns', {
+      mode: 'cors',
+      method: 'POST',
+      body: JSON.stringify({
+        username: creds[0],
+        password: creds[1],
+        token: creds[2],
+        table_name: this.table_name
+      })
+    });
+    let js = await resp.json();
+    this.columns = js.columns;
   }
 
   anyToNumber(el: any): number {
@@ -173,9 +185,8 @@ export class TableViewComponent implements OnInit {
           return '<tr><td>' + json.COLUMN_NAME + '</td><td><input type="number" maxlength="65535" class="form-control input" placeholder="' + json.COLUMN_NAME + '"></td><td>FLOAT</td></tr>';
         case 'tinyint':
           return '<tr><td>' + json.COLUMN_NAME + '</td><td><input type="checkbox" class="form-control input" placeholder="' + json.COLUMN_NAME + '"></td><td>BOOLEAN</td></tr>';
-        case 'varchar':
-          return '<tr><td>' + json.COLUMN_NAME + '</td><td><input type="text" class="form-control input" maxlength="'
-            + json.CHARACTER_MAXIMUM_LENGTH + '" placeholder="' + json.COLUMN_NAME + '"></td><td>STRING (' + json.CHARACTER_MAXIMUM_LENGTH + ' Chars)</td></tr>';
+        case 'text':
+          return '<tr><td>' + json.COLUMN_NAME + '</td><td><input type="text" class="form-control input" placeholder="' + json.COLUMN_NAME + '"></td><td>TEXT</td></tr>';
       }
     }
   }
@@ -185,14 +196,13 @@ export class TableViewComponent implements OnInit {
       return element;
     }
     var keys = [];
-    for (var k in element) keys.push(k);
-    if (!keys.includes('Valid')) {
-      return atob(element);
+    for (var k in element) {
+      keys.push(k);
     }
-    for (let i=0; i<keys.length; i++) {
-      if (keys[i] != 'Valid') {
-        return element[keys[i]];
-      }
+    if (!keys.includes('Valid') && keys.length > 0) {
+      return atob(element);
+    } else {
+      return element;
     }
   }
 

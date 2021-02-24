@@ -107,7 +107,7 @@
       <table class="table table-bordered table-striped mb-0" style="width: 1102px;">
         <thead>
         <tr>
-          <th *ngFor="let column of columns" [style]="calculateColumnWidthCSS(columns)">{{column}}</th>
+          <th *ngFor="let column of columns" [style]="calculateColumnWidthCSS(columns)">{{column.COLUMN_NAME}}</th>
         </tr>
         </thead>
         <tbody>

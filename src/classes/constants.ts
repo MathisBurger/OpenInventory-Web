@@ -3,6 +3,6 @@ export class Constants {
 
   constructor() {
     //this.API_Origin = location.protocol + '//' + location.hostname + ':' + location.port +  '/api';
-    this.API_Origin = 'https://openinventory-test.mathis.burger.de/api';
+    //this.API_Origin = 'https://openinventory-test.mathis.burger.de/api';
   }
 }
