@@ -5,6 +5,7 @@ import {DefaultResponse} from "../models/default-response";
 import {CookieHandler} from "../../classes/cookie-handler";
 import {Constants} from "../../classes/constants";
 import {catchError} from "rxjs/operators";
+import {ListAllPermissionGroupsResponse} from "../models/list-all-permission-groups-response";
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,41 @@ export class RestAPIService {
       table_name: name,
       row_config: tuples.toString(),
       min_perm_lvl: minPermLvl
+    }).pipe(catchError(this.handleError));
+  }
+
+  // fetches all permissions
+  getAllPermissionGroups(): Observable<ListAllPermissionGroupsResponse> {
+    let creds = new CookieHandler().getLoginCreds();
+    return this.client.post<ListAllPermissionGroupsResponse>(this.BASE_URL + '/permission-management/listAllPermissionGroups', {
+      username: creds[0],
+      password: creds[1],
+      token: creds[2]
+    }).pipe(catchError(this.handleError));
+  }
+
+  // creates permission group from values
+  createPermissionGroup(perm_name: string, perm_color: string, perm_lvl: number): Observable<DefaultResponse> {
+    let creds = new CookieHandler().getLoginCreds();
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/permission-management/createPermissionGroup', {
+      username: creds[0],
+      password: creds[1],
+      token: creds[2],
+      permission_info: {
+        name: perm_name,
+        color_code: perm_color,
+        permission_level: perm_lvl
+      }
+    }).pipe(catchError(this.handleError));
+  }
+
+  deletePermissionGroup(group_name: string): Observable<DefaultResponse> {
+    let creds = new CookieHandler().getLoginCreds();
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/permission-management/deletePermissionGroup', {
+      username: creds[0],
+      password: creds[1],
+      token: creds[2],
+      group_name: group_name
     }).pipe(catchError(this.handleError));
   }
 }

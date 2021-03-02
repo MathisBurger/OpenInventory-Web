@@ -11,24 +11,25 @@
         <div class="" id="new-permission-modal-alert"></div>
         <label>
           Name:
-          <input type="text" class="form-control" placeholder="permission name" id="new-permission-modal-name-input">
+          <input type="text" class="form-control" placeholder="permission name" id="new-permission-modal-name-input" #newPermNameInput>
         </label>
         <br>
         <label>
           Permission-level:
-          <select size="1" class="form-control" id="new-permission-modal-lvl-input">
+          <select size="1" class="form-control" id="new-permission-modal-lvl-input" #permLvlInput>
             <option *ngFor="let num of numArr">{{num}}</option>
           </select>
         </label>
         <br>
         <label>
           Color:
-          <input type="color" style="margin-left: 1em; opacity: 0.8" value="#18b8f3" id="new-permission-modal-color-input">
+          <input type="color" style="margin-left: 1em; opacity: 0.8" value="#18b8f3" id="new-permission-modal-color-input" #permColorInput>
         </label>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="addPermissionGroup()">create</button>
+        <button type="button" class="btn btn-primary"
+                (click)="addPermissionGroup(newPermNameInput.value, permLvlInput.value, permColorInput.value)">create</button>
       </div>
     </div>
   </div>
