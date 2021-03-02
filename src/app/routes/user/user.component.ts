@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {CookieHandler} from "../../classes/cookie-handler";
-import {Constants} from "../../classes/constants";
+import {CookieHandler} from "../../../classes/cookie-handler";
+import {Constants} from "../../../classes/constants";
 import {Md5} from "ts-md5";
-import {LoginHandler} from "../../classes/login-handler";
+import {LoginHandler} from "../../../classes/login-handler";
 
 @Component({
   selector: 'app-user',

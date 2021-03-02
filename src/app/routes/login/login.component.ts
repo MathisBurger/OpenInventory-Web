@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {LoginHandler} from "../../classes/login-handler";
+import {LoginHandler} from "../../../classes/login-handler";
 import {Md5} from 'ts-md5/dist/md5';
 
 @Component({

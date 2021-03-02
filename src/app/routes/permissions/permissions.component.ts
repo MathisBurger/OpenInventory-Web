@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Constants} from "../../classes/constants";
-import {CookieHandler} from "../../classes/cookie-handler";
-import {LoginHandler} from "../../classes/login-handler";
+import {Constants} from "../../../classes/constants";
+import {CookieHandler} from "../../../classes/cookie-handler";
+import {LoginHandler} from "../../../classes/login-handler";
 
 @Component({
   selector: 'app-permissions',

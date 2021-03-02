@@ -3,7 +3,7 @@ import {CookieHandler} from "./cookie-handler";
 
 export class LoginHandler {
 
-
+  // DEPRECATED
   async Login(username: string, password: string, ext: number): Promise<void> {
     let res = await fetch(new Constants().API_Origin + '/login', {
       method: 'POST',
@@ -22,6 +22,7 @@ export class LoginHandler {
     }
   }
 
+  // DEPRECATED
   async checkCreds(): Promise<void> {
     let creds = new CookieHandler().getLoginCreds();
     let req = await fetch(new Constants().API_Origin + '/check-creds', {

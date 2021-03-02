@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {CookieHandler} from "../../classes/cookie-handler";
-import {Constants} from "../../classes/constants";
-import {Utils} from "../../classes/utils";
-import {LoginHandler} from "../../classes/login-handler";
+import {CookieHandler} from "../../../classes/cookie-handler";
+import {Constants} from "../../../classes/constants";
+import {Utils} from "../../../classes/utils";
+import {LoginHandler} from "../../../classes/login-handler";
 
 @Component({
   selector: 'app-table-view',
