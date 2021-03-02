@@ -64,11 +64,12 @@ export class PermissionsComponent implements OnInit {
   addPermissionGroup(perm_name: string, perm_lvl: string, perm_color: string): void {
 
     perm_color = this.HexToRGB(perm_color);
+    perm_name = 'permission.' + perm_name;
 
     // call API
     this.api.createPermissionGroup(perm_name, perm_color, +perm_lvl)
       .subscribe(data => {
-        if (data.message == 'Created permissiongroup') {
+        if (data.message == 'Created permission-group') {
           location.reload();
         } else {
           this.popup.showAsComponent(data.message, data.alert);
@@ -77,8 +78,13 @@ export class PermissionsComponent implements OnInit {
       })
   }
 
+  // deletes permission group on button click
   deletePermissionGroup(name: string): void {
+
+    // get permission name
     let real_name = name.split('.')[1];
+
+    // call API
     this.api.deletePermissionGroup(real_name)
       .subscribe(data => {
         if (data.message == 'Successfully deleted PermissionGroup') {
