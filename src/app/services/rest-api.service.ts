@@ -40,10 +40,24 @@ export class RestAPIService {
               }).pipe(catchError(this.handleError));
   }
 
+  // tries to login the user
   login(username: string, password: string): Observable<DefaultResponse> {
     return this.client.post<DefaultResponse>(this.BASE_URL + '/login', {
       username: username,
       password: password
+    }).pipe(catchError(this.handleError));
+  }
+
+  // creates a table with given values
+  createTable(name: string, tuples: any, minPermLvl: number): Observable<DefaultResponse> {
+    let creds = new CookieHandler().getLoginCreds();
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/table-management/createTable', {
+      username: creds[0],
+      password: creds[1],
+      token: creds[2],
+      table_name: name,
+      row_config: tuples.toString(),
+      min_perm_lvl: minPermLvl
     }).pipe(catchError(this.handleError));
   }
 }

@@ -22,12 +22,10 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   // on login button click
-  login(): void {
+  login(username: string, password: string, stayLoggedIn: boolean): void {
 
-    // getting parameter from
-    let username = (document.getElementById('username') as HTMLInputElement).value;
-    let password = Md5.hashStr((document.getElementById('password') as HTMLInputElement).value).toString();
-    let stayLoggedIn = (document.getElementById('remember-me') as HTMLInputElement).checked;
+    // generates MD5 hash of password
+    password = Md5.hashStr(password).toString();
 
     // defined cookie expiration
     let ext = 1;
@@ -38,11 +36,11 @@ export class LoginComponent implements OnInit {
     // call API
     this.api.login(username, password).subscribe(data => {
       // login successful
-      if (data.alert == 'alert alert-success') {
+      if (data.message == 'Login successful') {
         new CookieHandler().setLoginCreds(username, password, data.token, ext);
         location.href = '/dashboard';
       } else {
-        this.popup.showAsComponent(data.message, '#d41717');
+        this.popup.showAsComponent(data.message, data.alert);
         this.popup.closePopup(1000);
       }
     });
