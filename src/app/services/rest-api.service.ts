@@ -39,4 +39,11 @@ export class RestAPIService {
                 token: creds[2]
               }).pipe(catchError(this.handleError));
   }
+
+  login(username: string, password: string): Observable<DefaultResponse> {
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/login', {
+      username: username,
+      password: password
+    }).pipe(catchError(this.handleError));
+  }
 }
