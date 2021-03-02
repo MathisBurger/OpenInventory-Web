@@ -6,6 +6,7 @@ import {CookieHandler} from "../../classes/cookie-handler";
 import {Constants} from "../../classes/constants";
 import {catchError} from "rxjs/operators";
 import {ListAllPermissionGroupsResponse} from "../models/list-all-permission-groups-response";
+import {GetSystemInfoResponse} from "../models/get-system-info-response";
 
 @Injectable({
   providedIn: 'root'
@@ -95,5 +96,10 @@ export class RestAPIService {
       token: creds[2],
       group_name: group_name
     }).pipe(catchError(this.handleError));
+  }
+
+  getSystemInfo(): Observable<GetSystemInfoResponse> {
+    return this.client.get<GetSystemInfoResponse>(this.BASE_URL + '/info')
+      .pipe(catchError(this.handleError));
   }
 }

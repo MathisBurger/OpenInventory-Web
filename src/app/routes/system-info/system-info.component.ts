@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, Injector, OnInit} from '@angular/core';
 import {Constants} from "../../../classes/constants";
 import {LoginHandler} from "../../../classes/login-handler";
+import {RestAPIService} from "../../services/rest-api.service";
+import {PopupWindowService} from "../../components/popup-window/popup-window.service";
 
 @Component({
   selector: 'app-system-info',
@@ -13,19 +15,25 @@ export class SystemInfoComponent implements OnInit {
   cpuCores: string;
   operatingSystem: string;
 
-  constructor() { }
+  constructor(
+    @Inject('RestAPIService') private api: RestAPIService,
+    injector: Injector,
+    public popup: PopupWindowService
+  ) { }
 
   ngOnInit(): void {
-    new LoginHandler().checkCreds().then();
-    fetch(new Constants().API_Origin + '/info', {
-      method: 'GET',
-      mode: 'cors'
-    }).then(res => res.json())
-      .then(data => {
-        this.apiLang = data['api-language'];
-        this.apiVersion = data['api-version'];
-        this.cpuCores = data['cpu-cores'];
-        this.operatingSystem = data['operating-system'];
+
+    // check login status
+    this.api.checkCreds().subscribe(data => {
+      if (data.message != 'Login successful') { location.href = '/login'; }
+    });
+
+    this.api.getSystemInfo()
+      .subscribe(data => {
+        this.apiLang = data.api_language;
+        this.apiVersion = data.api_version;
+        this.cpuCores = data.cpu_cores;
+        this.operatingSystem = data.operating_system;
       })
   }
 
