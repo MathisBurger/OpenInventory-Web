@@ -208,7 +208,6 @@ export class TableViewComponent implements OnInit {
 
   // adds entry to table
   addEntry(): void {
-
     // get input values
     let inputs = (document.getElementsByClassName('input') as HTMLCollectionOf<HTMLInputElement>);
 
