@@ -13,20 +13,20 @@
         <div class="row">
           <label style="margin-left: 1em;">
             PermissionGroup:
-            <select class="form-control" size="1" id="user-permission-modal-select">
+            <select class="form-control" size="1" id="user-permission-modal-select" #userPermissionSelect>
               <option *ngFor="let group of outstanding_perm_groups">{{group.name}}</option>
             </select>
           </label>
-          <button class="btn btn-primary modified-btn" style="margin-top: 1.4em;" (click)="addPermissionToUser()">add</button>
+          <button class="btn btn-primary modified-btn" style="margin-top: 1.4em;" (click)="addPermissionToUser(userPermissionSelect.value)">add</button>
         </div>
         <div class="row">
           <label style="margin-left: 1em;">
             PermissionGroup:
-            <select class="form-control" size="1" id="user-permission-modal-select-remove">
+            <select class="form-control" size="1" id="user-permission-modal-select-remove" #removePermissionSelect>
               <option *ngFor="let group of permGroups">{{group.name}}</option>
             </select>
           </label>
-          <button class="btn btn-danger modified-btn" style="margin-top: 1.4em;" (click)="removePermissionFromUser()">remove</button>
+          <button class="btn btn-danger modified-btn" style="margin-top: 1.4em;" (click)="removePermissionFromUser(removePermissionSelect.value)">remove</button>
         </div>
       </div>
       <div class="modal-footer">
@@ -52,17 +52,18 @@
       <div class="modal-body">
         <div class="" id="addUser-alert"></div>
         <table>
-          <tr><td>Username:</td><td><input type="text" placeholder="username" class="form-control" id="addUser-username"></td></tr>
-          <tr><td>Password:</td><td><input type="password" placeholder="password" class="form-control" id="addUser-password"></td></tr>
-          <tr><td>Retype password:</td><td><input type="password" placeholder="password" class="form-control" id="addUser-retype-password"></td></tr>
-          <tr><td>Mail:</td><td><input type="email" placeholder="mail" class="form-control" id="addUser-mail"></td></tr>
-          <tr><td>Root:</td><td><input type="checkbox" class="form-control" id="addUser-root"></td></tr>
-          <tr><td>Status:</td><td><input type="checkbox" class="form-control" id="addUser-status"></td></tr>
+          <tr><td>Username:</td><td><input type="text" placeholder="username" class="form-control" id="addUser-username" #usernameInput></td></tr>
+          <tr><td>Password:</td><td><input type="password" placeholder="password" class="form-control" id="addUser-password" #passwordINput></td></tr>
+          <tr><td>Retype password:</td><td><input type="password" placeholder="password" class="form-control" id="addUser-retype-password" #retypePasswordInput></td></tr>
+          <tr><td>Mail:</td><td><input type="email" placeholder="mail" class="form-control" id="addUser-mail" #mailInput></td></tr>
+          <tr><td>Root:</td><td><input type="checkbox" class="form-control" id="addUser-root" #rootCheckbox></td></tr>
+          <tr><td>Status:</td><td><input type="checkbox" class="form-control" id="addUser-status" #statusCheckbox></td></tr>
         </table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="addUser()">Add</button>
+        <button type="button" class="btn btn-primary"
+                (click)="addUser(usernameInput.value, passwordINput.value, retypePasswordInput.value, mailInput.value, rootCheckbox.checked, statusCheckbox.checked)">Add</button>
       </div>
     </div>
   </div>

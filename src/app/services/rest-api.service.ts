@@ -11,6 +11,8 @@ import {GetTableContentResponse} from "../models/get-table-content-response";
 import {GetTableColumnsResponse} from "../models/get-table-columns-response";
 import {ListAllPermGroupsOfTableResponse} from "../models/list-all-perm-groups-of-table-response";
 import {GetAllTablesResponse} from "../models/get-all-tables-response";
+import {ListUserResponse} from "../models/list-user-response";
+import {ListAllPermsOfUser} from "../models/list-all-perms-of-user";
 
 @Injectable({
   providedIn: 'root'
@@ -214,6 +216,7 @@ export class RestAPIService {
     }).pipe(catchError(this.handleError));
   }
 
+  // queries all tables
   getAllTables(): Observable<GetAllTablesResponse> {
     let creds = new CookieHandler().getLoginCreds();
     return this.client.post<GetAllTablesResponse>(this.BASE_URL + '/table-management/getAllTables', {
@@ -223,6 +226,7 @@ export class RestAPIService {
     }).pipe(catchError(this.handleError));
   }
 
+  // edit minimum permission level
   editTableMinPermLvl(name: string, lvl: number): Observable<DefaultResponse> {
     let creds = new CookieHandler().getLoginCreds();
     return this.client.post<DefaultResponse>(this.BASE_URL + '/permission-management/editTableMinPermLvl',
@@ -233,5 +237,79 @@ export class RestAPIService {
         table_name: name,
         new_lvl: lvl
       }).pipe(catchError(this.handleError));
+  }
+
+  // queries all user
+  getAllUser(): Observable<ListUserResponse> {
+    let creds = new CookieHandler().getLoginCreds();
+    return this.client.post<ListUserResponse>(this.BASE_URL + '/user-management/ListUser', {
+      username: creds[0],
+      password: creds[1],
+      token: creds[2]
+    }).pipe(catchError(this.handleError));
+  }
+
+  // list all permissions of user
+  listAllPermsOfUser(username: string): Observable<ListAllPermsOfUser> {
+    let creds = new CookieHandler().getLoginCreds();
+    return this.client.post<ListAllPermsOfUser>(this.BASE_URL + '/permission-management/listAllPermsOfUser', {
+        username: creds[0],
+        password: creds[1],
+        token: creds[2],
+        user: username
+      }
+    ).pipe(catchError(this.handleError));
+  }
+
+  // adds user to permission
+  addUserToPermissionGroup(permission: string, username: string): Observable<DefaultResponse> {
+    let creds = new CookieHandler().getLoginCreds();
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/permission-management/addUserToPermissionGroup', {
+        username: creds[0],
+        password: creds[1],
+        token: creds[2],
+        permission: permission,
+        user: username
+      }).pipe(catchError(this.handleError));
+  }
+
+  // removes permission from user
+  removeUserFromPermissionGroup(user: string, perm: string): Observable<DefaultResponse> {
+    let creds = new CookieHandler().getLoginCreds();
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/permission-management/removeUserFromPermissionGroup', {
+      username: creds[0],
+      password: creds[1],
+      token: creds[2],
+      permission_name: perm,
+      user: user
+    }).pipe(catchError(this.handleError));
+  }
+
+  // adds user to system
+  addUser(username: string, password: string, root: boolean, mail: string, status: string): Observable<DefaultResponse> {
+    let loginCreds = new CookieHandler().getLoginCreds();
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/user-management/AddUser', {
+      username: loginCreds[0],
+      password: loginCreds[1],
+      token: loginCreds[2],
+      user: {
+        username: username,
+        password: password,
+        root: root,
+        mail: mail,
+        status: status
+      }
+    }).pipe(catchError(this.handleError));
+  }
+
+  // deletes user from system
+  deleteUser(name: string): Observable<DefaultResponse> {
+    let creds = new CookieHandler().getLoginCreds();
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/user-management/DeleteUser', {
+      username: creds[0],
+      password: creds[1],
+      token: creds[2],
+      user: name
+    }).pipe(catchError(this.handleError));
   }
 }
