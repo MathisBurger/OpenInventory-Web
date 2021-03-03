@@ -10,6 +10,7 @@ import {GetSystemInfoResponse} from "../models/get-system-info-response";
 import {GetTableContentResponse} from "../models/get-table-content-response";
 import {GetTableColumnsResponse} from "../models/get-table-columns-response";
 import {ListAllPermGroupsOfTableResponse} from "../models/list-all-perm-groups-of-table-response";
+import {GetAllTablesResponse} from "../models/get-all-tables-response";
 
 @Injectable({
   providedIn: 'root'
@@ -211,5 +212,26 @@ export class RestAPIService {
       token: creds[2],
       table_name: name,
     }).pipe(catchError(this.handleError));
+  }
+
+  getAllTables(): Observable<GetAllTablesResponse> {
+    let creds = new CookieHandler().getLoginCreds();
+    return this.client.post<GetAllTablesResponse>(this.BASE_URL + '/table-management/getAllTables', {
+      username: creds[0],
+      password: creds[1],
+      token: creds[2]
+    }).pipe(catchError(this.handleError));
+  }
+
+  editTableMinPermLvl(name: string, lvl: number): Observable<DefaultResponse> {
+    let creds = new CookieHandler().getLoginCreds();
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/permission-management/editTableMinPermLvl',
+      {
+        username: creds[0],
+        password: creds[1],
+        token: creds[2],
+        table_name: name,
+        new_lvl: lvl
+      }).pipe(catchError(this.handleError));
   }
 }
