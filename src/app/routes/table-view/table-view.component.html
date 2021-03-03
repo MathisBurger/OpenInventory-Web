@@ -27,21 +27,22 @@
         <div class="" id="table-view-modal-alert"></div>
           <div class="row">
             <label>
-              Tablename: <input id="table-name-input" type="text" class="form-control" (keydown)="onTablenameChange()" (keyup)="onTablenameChange()">
+              Tablename: <input id="table-name-input" type="text" class="form-control" (keydown)="onTablenameChange()" (keyup)="onTablenameChange()" [value]="table_name" #tableNameInput>
             </label>
-            <button class="btn btn-primary disabled modified-btn" style="margin-left: 1em; margin-top: 1.5em;" disabled id="table-tablename-btn" (click)="updateTableName()">update</button>
+            <button class="btn btn-primary disabled modified-btn" style="margin-left: 1em; margin-top: 1.5em;" disabled id="table-tablename-btn" (click)="updateTableName(tableNameInput.value)">update</button>
           </div>
         <div class="row">
           <label>
             Columnname:
-            <select size="1" class="form-control" (change)="onColumnNameSwitch($event)" id="new-columnname-select">
-              <option *ngFor="let column of columns">{{column}}</option>
+            <select size="1" class="form-control" (change)="onColumnNameSwitch($event)" id="new-columnname-select" #newColumnNameSelect>
+              <option *ngFor="let column of columns">{{column.COLUMN_NAME}}</option>
             </select>
           </label>
           <label>
-            <input type="text" class="form-control" style="margin-top: 1.5em; margin-left: 1em;" id="column-name-input" (keyup)="onColumnNameInputChange()" (keydown)="onColumnNameInputChange()">
+            <input type="text" class="form-control" style="margin-top: 1.5em; margin-left: 1em;" id="column-name-input" (keyup)="onColumnNameInputChange()" (keydown)="onColumnNameInputChange()" #columnNameInut>
           </label>
-          <button class="btn btn-primary disabled modified-btn" style="margin-top: 1.5em;" disabled id="column-name-update-btn" (click)="updateColumnName()">update</button>
+          <button class="btn btn-primary disabled modified-btn" style="margin-top: 1.5em;" disabled id="column-name-update-btn"
+                  (click)="updateColumnName(newColumnNameSelect.value, columnNameInut.value)">update</button>
         </div>
       </div>
       <div class="modal-footer">
@@ -66,9 +67,9 @@
       <div class="modal-body">
         <div class="" id="secound-table-view-modal-alert-dialog"></div>
         <div class="row" style="margin-left: 1em;" *ngFor="let i of length_counter">
-          <label *ngIf="columns[anyToNumber(i)] != 'id'">
-            {{columns[anyToNumber(i)]}}
-            <input type="text" class="form-control column-identity" [value]="edit_row[anyToNumber(i)]" [id]="'identity-' + columns[anyToNumber(i)]">
+          <label *ngIf="columns[anyToNumber(i)].COLUMN_NAME != 'id'">
+            {{columns[anyToNumber(i)].COLUMN_NAME}}
+            <input type="text" class="form-control column-identity" [value]="edit_row[anyToNumber(i)]" [id]="'identity-' + columns[anyToNumber(i)].COLUMN_NAME">
           </label>
         </div>
       </div>
@@ -115,7 +116,7 @@
           <td *ngFor="let element of row" [style]="calculateColumnWidthCSS(columns)">{{element}}</td>
           <td class="larger-td">
             <div class="row">
-              <button class="btn btn-primary" style="margin-left: 1em;" data-toggle="modal" data-target="#edit-entry-modal" (click)="initalizeEntryEditing(row)">edit</button>
+              <button class="btn btn-primary" style="margin-left: 1em;" data-toggle="modal" data-target="#edit-entry-modal" (click)="initializeEntryEditing(row)">edit</button>
               <button (click)="removeEntry(getIdFromRow(row))" class="btn btn-danger" style="margin-left: 1em;">delete</button>
             </div>
           </td>
