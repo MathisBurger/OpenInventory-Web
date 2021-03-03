@@ -56,6 +56,7 @@ export class UserComponent implements OnInit {
         }
       })
 
+    // gets all permission groups
     this.api.getAllPermissionGroups()
       .subscribe(data => {
         if (data.message == 'Successfully fetched all permission groups') {

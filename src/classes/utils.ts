@@ -1,5 +1,6 @@
 export class Utils {
 
+  // typescript implementation of bubble sort
   bubblesort_perm_array(arr: any): any {
     for (let i=0; i<arr.length; i++) {
       for (let j=0; j<(arr.length-1-i); j++) {

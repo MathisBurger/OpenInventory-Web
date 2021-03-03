@@ -1,6 +1,4 @@
 import {Component, Inject, Injector, OnInit} from '@angular/core';
-import {CookieHandler} from "../../../classes/cookie-handler";
-import {Constants} from "../../../classes/constants";
 import {RestAPIService} from "../../services/rest-api.service";
 import {PopupWindowService} from "../../components/popup-window/popup-window.service";
 

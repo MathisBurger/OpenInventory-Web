@@ -1,7 +1,5 @@
 import {Component, Inject, Injector, OnInit} from '@angular/core';
-import {LoginHandler} from "../../../classes/login-handler";
 import {CookieHandler} from "../../../classes/cookie-handler";
-import {Constants} from "../../../classes/constants";
 import {Utils} from "../../../classes/utils";
 import {RestAPIService} from "../../services/rest-api.service";
 import {PopupWindowService} from "../../components/popup-window/popup-window.service";

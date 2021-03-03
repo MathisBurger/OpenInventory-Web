@@ -74,8 +74,6 @@ export class TableViewComponent implements OnInit {
         });
     });
 
-    // query content
-
 
     // prepare columns for new entry modal
     this.api.getTableColumns(this.table_name)
@@ -255,6 +253,7 @@ export class TableViewComponent implements OnInit {
     location.reload();
   }
 
+  // gets ID value from row array
   getIdFromRow(row: any): number {
     let index = 0;
     for (let i=0; i<this.columns.length; i++) {
