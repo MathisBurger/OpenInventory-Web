@@ -12,11 +12,11 @@
         <div class="row">
           <label>
             Minimum permission level:
-            <select size="1" class="form-control" id="table-perm-min-select" (change)="onMinPermLvlChange()">
+            <select size="1" class="form-control" id="table-perm-min-select" (change)="onMinPermLvlChange()" #permlvlSelect>
               <option *ngFor="let el of perm_lvls">{{el}}</option>
             </select>
           </label>
-          <button style="margin-left: 1em; margin-top: 1.5em;" class="btn btn-primary disabled modified-btn" id="table-update-btn" (click)="updateMinPermlvl()" disabled>update</button>
+          <button style="margin-left: 1em; margin-top: 1.5em;" class="btn btn-primary disabled modified-btn" id="table-update-btn" (click)="updateMinPermlvl(permlvlSelect.value)" disabled>update</button>
         </div>
       </div>
       <div class="modal-footer">
@@ -49,13 +49,13 @@
           </thead>
           <tbody>
           <tr *ngFor="let table of tables">
-            <td>{{getSingleVals(table, 0)}}</td>
-            <td>{{getSingleVals(table, 1)}}</td>
-            <td>{{getSingleVals(table, 2)}}</td>
+            <td>{{table.name}}</td>
+            <td>{{table.entries}}</td>
+            <td>{{table.created_at}}</td>
             <td>
-              <button class="btn btn-primary" (click)="openTable(getSingleVals(table, 0))">open</button>
-              <button class="btn btn-danger" (click)="deleteTable(getSingleVals(table, 0))" style="margin-left: 1em;">delete</button>
-              <button class="btn btn-success" style="margin-left: 1em;" data-toggle="modal" data-target="#exampleModal" (click)="loadPermissions(getSingleVals(table, 0), getSingleVals(table, 3))">permissions</button>
+              <button class="btn btn-primary" (click)="openTable(table.name)">open</button>
+              <button class="btn btn-danger" (click)="deleteTable(table.name)" style="margin-left: 1em;">delete</button>
+              <button class="btn btn-success" style="margin-left: 1em;" data-toggle="modal" data-target="#exampleModal" (click)="loadPermissions(table.name, table.min_perm_lvl)">permissions</button>
             </td>
           </tr>
           </tbody>

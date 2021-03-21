@@ -9,13 +9,20 @@ import {CookieHandler} from "../../../classes/cookie-handler";
 export class SidebarComponent implements OnInit {
 
   constructor() { }
+
   @Input() active: string;
+
   ngOnInit(): void {
+
+    // sets active value
     let element = document.querySelector('#link-' + this.active) as HTMLAnchorElement;
     element.classList.add('active');
   }
 
+
   logout(): void {
+
+    // deletes cookie and redirects to login page
     new CookieHandler().setLoginCreds('', '', '', 1);
     location.href = '/login';
   }

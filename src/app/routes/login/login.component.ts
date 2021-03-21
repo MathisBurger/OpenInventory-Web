@@ -1,5 +1,4 @@
 import {Component, Inject, Injector, OnInit} from '@angular/core';
-import {LoginHandler} from "../../../classes/login-handler";
 import {Md5} from 'ts-md5/dist/md5';
 import {RestAPIService} from "../../services/rest-api.service";
 import {PopupWindowService} from "../../components/popup-window/popup-window.service";
@@ -35,6 +34,7 @@ export class LoginComponent implements OnInit {
 
     // call API
     this.api.login(username, password).subscribe(data => {
+
       // login successful
       if (data.message == 'Login successful') {
         new CookieHandler().setLoginCreds(username, password, data.token, ext);

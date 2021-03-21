@@ -1,6 +1,8 @@
 export class CookieHandler {
-  constructor() {
-  }
+
+  constructor() {}
+
+  // sets login cookies
   setLoginCreds(username: string, password: string, token: string, ext: number): void {
     this.setCookie('username', username, ext);
     this.setCookie('password', password, ext);
@@ -8,6 +10,7 @@ export class CookieHandler {
     this.setCookie('ext', ext, ext);
   }
 
+  // returns login credentials from cookies
   getLoginCreds(ext: number = 1): string[] {
     let arr = [];
     if (this.getCookie('username') != ''){
@@ -31,6 +34,7 @@ export class CookieHandler {
     return arr;
   }
 
+  // set cookie
   setCookie(cname, cvalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -38,6 +42,7 @@ export class CookieHandler {
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
   }
 
+  // get cookie
   getCookie(cname): string {
     var name = cname + "=";
     var ca = document.cookie.split(';');

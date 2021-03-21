@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "openinventory-web"
+    }
+  },
+  "defaultProject": "openinventory-web",
+  "cli": {
+    "analytics": "edf353b5-c290-4f6d-9594-57271a06ee68"
+  }
 }

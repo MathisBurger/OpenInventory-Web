@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable, throwError} from "rxjs";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {DefaultResponse} from "../models/default-response";
 import {CookieHandler} from "../../classes/cookie-handler";
 import {Constants} from "../../classes/constants";
@@ -10,6 +10,9 @@ import {GetSystemInfoResponse} from "../models/get-system-info-response";
 import {GetTableContentResponse} from "../models/get-table-content-response";
 import {GetTableColumnsResponse} from "../models/get-table-columns-response";
 import {ListAllPermGroupsOfTableResponse} from "../models/list-all-perm-groups-of-table-response";
+import {GetAllTablesResponse} from "../models/get-all-tables-response";
+import {ListUserResponse} from "../models/list-user-response";
+import {ListAllPermsOfUser} from "../models/list-all-perms-of-user";
 
 @Injectable({
   providedIn: 'root'
@@ -69,11 +72,9 @@ export class RestAPIService {
   // fetches all permissions
   getAllPermissionGroups(): Observable<ListAllPermissionGroupsResponse> {
     let creds = new CookieHandler().getLoginCreds();
-    return this.client.post<ListAllPermissionGroupsResponse>(this.BASE_URL + '/permission-management/listAllPermissionGroups', {
-      username: creds[0],
-      password: creds[1],
-      token: creds[2]
-    }).pipe(catchError(this.handleError));
+    let params = new HttpParams();
+    params = params.append('username', creds[0]).append('password', creds[1]).append('token', creds[2]);
+    return this.client.get<ListAllPermissionGroupsResponse>(this.BASE_URL + '/permission-management/listAllPermissionGroups', {params}).pipe(catchError(this.handleError));
   }
 
   // creates permission group from values
@@ -110,29 +111,23 @@ export class RestAPIService {
   // queries the content of given table
   getTableContent(tablename: string): Observable<GetTableContentResponse> {
     let creds = new CookieHandler().getLoginCreds();
-    return this.client.post<GetTableContentResponse>(this.BASE_URL + '/table-management/getTableContent', {
-      username: creds[0],
-      password: creds[1],
-      token: creds[2],
-      table_name: tablename
-    }).pipe(catchError(this.handleError));
+    let params = new HttpParams().append('username', creds[0]).append('password', creds[1])
+      .append('token', creds[2]).append('table_name', tablename);
+    return this.client.get<GetTableContentResponse>(this.BASE_URL + '/table-management/getTableContent', {params}).pipe(catchError(this.handleError));
   }
 
   // queries all table columns of given table
   getTableColumns(tablename: string): Observable<GetTableColumnsResponse> {
     let creds = new CookieHandler().getLoginCreds();
-    return this.client.post<GetTableColumnsResponse>(this.BASE_URL + '/table-management/getTableColumns', {
-      username: creds[0],
-      password: creds[1],
-      token: creds[2],
-      table_name: tablename
-    }).pipe(catchError(this.handleError));
+    let params = new HttpParams().append('username', creds[0]).append('password', creds[1])
+      .append('token', creds[2]).append('table_name', tablename);
+    return this.client.get<GetTableColumnsResponse>(this.BASE_URL + '/table-management/getTableColumns', {params}).pipe(catchError(this.handleError));
   }
 
   // edits table entry
   editTableEntry(tablename: string, objectID: number, row: any): Observable<DefaultResponse> {
     let creds = new CookieHandler().getLoginCreds();
-    return this.client.post<DefaultResponse>(this.BASE_URL + '/table-management/editTableEntry', {
+    return this.client.patch<DefaultResponse>(this.BASE_URL + '/table-management/editTableEntry', {
       username: creds[0],
       password: creds[1],
       token: creds[2],
@@ -145,7 +140,7 @@ export class RestAPIService {
   // updates table name
   updateTableName(oldName: string, newName: string): Observable<DefaultResponse> {
     let creds = new CookieHandler().getLoginCreds();
-    return this.client.post<DefaultResponse>(this.BASE_URL + '/table-management/renameTable', {
+    return this.client.patch<DefaultResponse>(this.BASE_URL + '/table-management/renameTable', {
             username: creds[0],
             password: creds[1],
             token: creds[2],
@@ -157,7 +152,7 @@ export class RestAPIService {
   // updates column name
   updateColumnName(tablename: string, oldName: string, newName: string): Observable<DefaultResponse> {
     let creds = new CookieHandler().getLoginCreds();
-    return this.client.post<DefaultResponse>(this.BASE_URL + '/table-management/renameTableColumn', {
+    return this.client.patch<DefaultResponse>(this.BASE_URL + '/table-management/renameTableColumn', {
       username: creds[0],
       password: creds[1],
       token: creds[2],
@@ -170,12 +165,9 @@ export class RestAPIService {
   // queries all permissions of table
   getAllPermissionsOfTable(tablename: string): Observable<ListAllPermGroupsOfTableResponse> {
     let creds = new CookieHandler().getLoginCreds();
-    return this.client.post<ListAllPermGroupsOfTableResponse>(this.BASE_URL + '/permission-management/ListAllPermGroupsOfTable', {
-      username: creds[0],
-      password: creds[1],
-      token: creds[2],
-      table_name: tablename
-    }).pipe(catchError(this.handleError));
+    let params = new HttpParams().append('username', creds[0]).append('password', creds[1])
+      .append('token', creds[2]).append('table_name', tablename);
+    return this.client.get<ListAllPermGroupsOfTableResponse>(this.BASE_URL + '/permission-management/ListAllPermGroupsOfTable', {params}).pipe(catchError(this.handleError));
   }
 
   // adds entry to table
@@ -210,6 +202,95 @@ export class RestAPIService {
       password: creds[1],
       token: creds[2],
       table_name: name,
+    }).pipe(catchError(this.handleError));
+  }
+
+  // queries all tables
+  getAllTables(): Observable<GetAllTablesResponse> {
+    let creds = new CookieHandler().getLoginCreds();
+    let params = new HttpParams().append('username', creds[0]).append('password', creds[1])
+      .append('token', creds[2]);
+    return this.client.get<GetAllTablesResponse>(this.BASE_URL + '/table-management/getAllTables', {params}).pipe(catchError(this.handleError));
+  }
+
+  // edit minimum permission level
+  editTableMinPermLvl(name: string, lvl: number): Observable<DefaultResponse> {
+    let creds = new CookieHandler().getLoginCreds();
+    return this.client.patch<DefaultResponse>(this.BASE_URL + '/permission-management/editTableMinPermLvl',
+      {
+        username: creds[0],
+        password: creds[1],
+        token: creds[2],
+        table_name: name,
+        new_lvl: lvl
+      }).pipe(catchError(this.handleError));
+  }
+
+  // queries all user
+  getAllUser(): Observable<ListUserResponse> {
+    let creds = new CookieHandler().getLoginCreds();
+    let params = new HttpParams().append('username', creds[0]).append('password', creds[1])
+      .append('token', creds[2]);
+    return this.client.get<ListUserResponse>(this.BASE_URL + '/user-management/ListUser', {params}).pipe(catchError(this.handleError));
+  }
+
+  // list all permissions of user
+  listAllPermsOfUser(username: string): Observable<ListAllPermsOfUser> {
+    let creds = new CookieHandler().getLoginCreds();
+    let params = new HttpParams().append('username', creds[0]).append('password', creds[1])
+      .append('token', creds[2]).append('user', username);
+    return this.client.get<ListAllPermsOfUser>(this.BASE_URL + '/permission-management/listAllPermsOfUser', {params}).pipe(catchError(this.handleError));
+  }
+
+  // adds user to permission
+  addUserToPermissionGroup(permission: string, username: string): Observable<DefaultResponse> {
+    let creds = new CookieHandler().getLoginCreds();
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/permission-management/addUserToPermissionGroup', {
+        username: creds[0],
+        password: creds[1],
+        token: creds[2],
+        permission: permission,
+        user: username
+      }).pipe(catchError(this.handleError));
+  }
+
+  // removes permission from user
+  removeUserFromPermissionGroup(user: string, perm: string): Observable<DefaultResponse> {
+    let creds = new CookieHandler().getLoginCreds();
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/permission-management/removeUserFromPermissionGroup', {
+      username: creds[0],
+      password: creds[1],
+      token: creds[2],
+      permission_name: perm,
+      user: user
+    }).pipe(catchError(this.handleError));
+  }
+
+  // adds user to system
+  addUser(username: string, password: string, root: boolean, mail: string, status: string): Observable<DefaultResponse> {
+    let loginCreds = new CookieHandler().getLoginCreds();
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/user-management/AddUser', {
+      username: loginCreds[0],
+      password: loginCreds[1],
+      token: loginCreds[2],
+      user: {
+        username: username,
+        password: password,
+        root: root,
+        mail: mail,
+        status: status
+      }
+    }).pipe(catchError(this.handleError));
+  }
+
+  // deletes user from system
+  deleteUser(name: string): Observable<DefaultResponse> {
+    let creds = new CookieHandler().getLoginCreds();
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/user-management/DeleteUser', {
+      username: creds[0],
+      password: creds[1],
+      token: creds[2],
+      user: name
     }).pipe(catchError(this.handleError));
   }
 }
