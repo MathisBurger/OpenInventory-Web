@@ -1,4 +1,6 @@
+import { Inject, Injector } from '@angular/core';
 import {Component, Input, OnInit} from '@angular/core';
+import { RestAPIService } from 'src/app/services/rest-api.service';
 import {CookieHandler} from "../../../classes/cookie-handler";
 
 @Component({
@@ -8,7 +10,10 @@ import {CookieHandler} from "../../../classes/cookie-handler";
 })
 export class SidebarComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    @Inject('RestAPIService') private api: RestAPIService,
+    injector: Injector
+  ) { }
 
   @Input() active: string;
 
@@ -22,9 +27,9 @@ export class SidebarComponent implements OnInit {
 
   logout(): void {
 
-    // deletes cookie and redirects to login page
-    new CookieHandler().setLoginCreds('', '', '', 1);
-    location.href = '/login';
+    this.api.revokeSession().subscribe(data => {
+        location.href = '/login';
+    });
   }
 
 }

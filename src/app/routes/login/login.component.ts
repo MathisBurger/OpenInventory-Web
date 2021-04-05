@@ -26,22 +26,12 @@ export class LoginComponent implements OnInit {
     // generates MD5 hash of password
     password = Md5.hashStr(password).toString();
 
-    // defined cookie expiration
-    let ext = 1;
-    if (stayLoggedIn) {
-      ext = 7;
-    }
-
-    // call API
     this.api.login(username, password).subscribe(data => {
-
-      // login successful
-      if (data.message == 'Login successful') {
-        new CookieHandler().setLoginCreds(username, password, data.token, ext);
+      if (data == 'OK') {
         location.href = '/dashboard';
       } else {
-        this.popup.showAsComponent(data.message, data.alert);
-        this.popup.closePopup(1000);
+        this.popup.showAsComponent('401 Unauthorized', '#d41717');
+        this.popup.closePopup(1500);
       }
     });
   }
