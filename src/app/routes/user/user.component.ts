@@ -36,6 +36,10 @@ export class UserComponent implements OnInit {
     });
   }
 
+  parseDate(date: string): string {
+    return new Date(date).toLocaleDateString("de-DE");
+  }
+
   // selects user
   selectUser(username: any): void {
     this.selected_user = username;
@@ -104,10 +108,6 @@ export class UserComponent implements OnInit {
       })
   }
 
-  // converts base 64 to uft8
-  bs64ToUFT8(bs64: any): any {
-    return atob(bs64);
-  }
 
   // checks if array includes value
   arr_includes(arr: any, val: string): boolean {
