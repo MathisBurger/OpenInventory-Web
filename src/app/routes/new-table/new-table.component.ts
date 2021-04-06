@@ -20,8 +20,9 @@ export class NewTableComponent implements OnInit {
 
   // on load
   ngOnInit(): void {
-    this.api.checkCreds().subscribe(data => {
-      if (data.message != 'Login successful') { location.href = '/login'; }
+    this.api.getAccessToken().subscribe(data => {
+      if (data == 'unauthorized') { location.href = '/login'; }
+      else { this.api.sessionToken = data.token; }
     });
 
     // create list of all permission levels

@@ -21,8 +21,9 @@ export class PermissionsComponent implements OnInit {
   ngOnInit(): void {
 
     // check login status
-    this.api.checkCreds().subscribe(data => {
-      if (data.message != 'Login successful') { location.href = '/login'; }
+    this.api.getAccessToken().subscribe(data => {
+      if (data == 'unauthorized') { location.href = '/login'; }
+      else { this.api.sessionToken = data.token; }
     });
 
     // preparing number array
