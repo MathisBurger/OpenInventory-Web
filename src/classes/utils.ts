@@ -21,7 +21,7 @@ export class Utils {
   validatePassword(pwd: string): any[] {
     let spl = pwd.split('');
 
-    if (spl.length < 7) {
+    if (spl.length < 8) {
       return [false, 'Your password must have at least 8 characters'];
     }
 
@@ -29,9 +29,9 @@ export class Utils {
 
     let specialCounter = 0;
 
-    for (let element in spl) {
-      for (let char in SPECIAL_CHARS) {
-        if (element == char) { specialCounter++; }
+    for (let i=0; i<spl.length; i++) {
+      for (let j=0; j<SPECIAL_CHARS.length; j++) {
+        if (spl[i] === SPECIAL_CHARS[j]) { specialCounter++; }
       }
     }
 
@@ -43,9 +43,9 @@ export class Utils {
 
     let numberCounter = 0;
 
-    for (let element in spl) {
-      for (let number in NUMBERS) {
-        if (element == number) { numberCounter++; }
+    for (let i=0; i<spl.length; i++) {
+      for (let j=0; j<NUMBERS.length; j++) {
+        if (spl[i] === NUMBERS[j]) { numberCounter++; }
       }
     }
 

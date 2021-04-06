@@ -25,15 +25,15 @@ export class SystemInfoComponent implements OnInit {
     this.api.getAccessToken().subscribe(data => {
       if (data == 'unauthorized') { location.href = '/login'; }
       else { this.api.sessionToken = data.token; }
-    });
 
-    this.api.getSystemInfo()
-      .subscribe(data => {
-        this.apiLang = data.api_language;
-        this.apiVersion = data.api_version;
-        this.cpuCores = data.cpu_cores;
-        this.operatingSystem = data.operating_system;
-      })
+      this.api.getSystemInfo()
+        .subscribe(data => {
+          this.apiLang = data.api_language;
+          this.apiVersion = data.api_version;
+          this.cpuCores = data.cpu_cores;
+          this.operatingSystem = data.operating_system;
+        });
+    });
   }
 
 }

@@ -35,55 +35,56 @@ export class TableViewComponent implements OnInit {
     this.api.getAccessToken().subscribe(data => {
       if (data == 'unauthorized') { location.href = '/login'; }
       else { this.api.sessionToken = data.token; }
-    });
 
-    // get name of active table
-    this.table_name = new CookieHandler().getCookie('active-table');
+      // get name of active table
+      this.table_name = new CookieHandler().getCookie('active-table');
 
-    // query content
-    this.api.getTableColumns(this.table_name).subscribe(data => {
+      // query content
+      this.api.getTableColumns(this.table_name).subscribe(data => {
 
-      this.columns = data.columns;
+        this.columns = data.columns;
 
-      // getting content after columns
-      this.api.getTableContent(this.table_name)
-        .subscribe(data => {
+        // getting content after columns
+        this.api.getTableContent(this.table_name)
+          .subscribe(data => {
 
-          if (data.message == 'successful') {
+            if (data.message == 'successful') {
 
-            // check if table entries are existing
-            if (data.elements == 'null') {
-              return;
+              // check if table entries are existing
+              if (data.elements == 'null') {
+                return;
+              }
+              // table contains entries
+              this.empty = 'false';
+
+              // parse elements to json
+              let json = JSON.parse(data.elements);
+
+              // parse json to array of rows
+              let rows = new RowParser().parse(json, this.columns);
+              console.log(rows);
+
+              this.rows = rows;
+              this.cached_rows = rows;
+            } else {
+
+              this.popup.showAsComponent(data.message, data.alert);
+              this.popup.closePopup(1500);
             }
-            // table contains entries
-            this.empty = 'false';
+          });
+      });
 
-            // parse elements to json
-            let json = JSON.parse(data.elements);
 
-            // parse json to array of rows
-            let rows = new RowParser().parse(json, this.columns);
-            console.log(rows);
-
-            this.rows = rows;
-            this.cached_rows = rows;
-          } else {
-
-            this.popup.showAsComponent(data.message, data.alert);
-            this.popup.closePopup(1500);
+      // prepare columns for new entry modal
+      this.api.getTableColumns(this.table_name)
+        .subscribe(data => {
+          if (data.message == 'successful') {
+            (document.querySelector('#new-entry-modal') as HTMLDivElement).innerHTML = new ColumnsRenderer().render(data);
+            (document.querySelector('#column-name-input') as HTMLInputElement).value = this.columns[0].COLUMN_NAME;
           }
         });
     });
 
-
-    // prepare columns for new entry modal
-    this.api.getTableColumns(this.table_name)
-      .subscribe(data => {
-        if (data.message == 'successful') {
-          (document.querySelector('#new-entry-modal') as HTMLDivElement).innerHTML = new ColumnsRenderer().render(data);
-          (document.querySelector('#column-name-input') as HTMLInputElement).value = this.columns[0].COLUMN_NAME;
-        }
-      });
   }
 
   // parses any to number

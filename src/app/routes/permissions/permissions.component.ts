@@ -24,22 +24,22 @@ export class PermissionsComponent implements OnInit {
     this.api.getAccessToken().subscribe(data => {
       if (data == 'unauthorized') { location.href = '/login'; }
       else { this.api.sessionToken = data.token; }
-    });
 
-    // preparing number array
-    for (let i=0; i<100; i++) {
-      this.numArr[i] = i + 1;
-    }
-
-    // call API
-    this.api.getAllPermissionGroups()
-    .subscribe(data => {
-      if (data.message == 'Successfully fetched all permission groups') {
-        this.permGroups = data.permission_groups;
-      } else {
-        this.popup.showAsComponent(data.message, data.alert);
-        this.popup.closePopup(1500);
+      // preparing number array
+      for (let i=0; i<100; i++) {
+        this.numArr[i] = i + 1;
       }
+
+      // call API
+      this.api.getAllPermissionGroups()
+        .subscribe(data => {
+          if (data.message == 'Successfully fetched all permission groups') {
+            this.permGroups = data.permission_groups;
+          } else {
+            this.popup.showAsComponent(data.message, data.alert);
+            this.popup.closePopup(1500);
+          }
+        });
     });
   }
 

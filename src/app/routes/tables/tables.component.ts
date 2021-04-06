@@ -29,18 +29,18 @@ export class TablesComponent implements OnInit {
     this.api.getAccessToken().subscribe(data => {
       if (data == 'unauthorized') { location.href = '/login'; }
       else { this.api.sessionToken = data.token; }
+
+      // init permission level array
+      for (let i=1; i<=100; i++) {
+        this.perm_lvls[(i-1)] = i;
+      }
+
+      // queries all tables
+      this.api.getAllTables()
+        .subscribe(data => {
+          this.tables = data.tables;
+        });
     });
-
-    // init permission level array
-    for (let i=1; i<=100; i++) {
-      this.perm_lvls[(i-1)] = i;
-    }
-
-    // queries all tables
-    this.api.getAllTables()
-      .subscribe(data => {
-        this.tables = data.tables;
-      });
   }
 
   // opens table in webapp

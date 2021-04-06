@@ -20,15 +20,16 @@ export class NewTableComponent implements OnInit {
 
   // on load
   ngOnInit(): void {
+
     this.api.getAccessToken().subscribe(data => {
       if (data == 'unauthorized') { location.href = '/login'; }
       else { this.api.sessionToken = data.token; }
-    });
 
-    // create list of all permission levels
-    for (let i=1; i<=100; i++) {
-      this.perm_lvls[(i-1)] = i;
-    }
+      // create list of all permission levels
+      for (let i=1; i<=100; i++) {
+        this.perm_lvls[(i-1)] = i;
+      }
+    });
   }
 
   // on column size submit

@@ -3,6 +3,7 @@ import {Md5} from "ts-md5";
 import {RestAPIService} from "../../services/rest-api.service";
 import {PopupWindowService} from "../../components/popup-window/popup-window.service";
 import {UserModel} from "../../models/user-model";
+import {Utils} from "../../../classes/utils";
 
 @Component({
   selector: 'app-user',
@@ -27,13 +28,12 @@ export class UserComponent implements OnInit {
     this.api.getAccessToken().subscribe(data => {
       if (data == 'unauthorized') { location.href = '/login'; }
       else { this.api.sessionToken = data.token; }
+
+      this.api.getAllUser()
+        .subscribe(data => {
+          this.user = data.user;
+        });
     });
-
-    this.api.getAllUser()
-      .subscribe(data => {
-        this.user = data.user;
-      });
-
   }
 
   // selects user
@@ -121,6 +121,14 @@ export class UserComponent implements OnInit {
 
   // adds user to system
   addUser(username: string, pwd: string, retype_pwd: string, mail: string, root: boolean, status: boolean): void {
+
+    let validation = new Utils().validatePassword(pwd);
+
+    if (!validation[0]) {
+      this.popup.showAsComponent(validation[1], '#d41717');
+      this.popup.closePopup(1500);
+      return;
+    }
 
     pwd = Md5.hashStr(pwd).toString();
     retype_pwd = Md5.hashStr(retype_pwd).toString();
