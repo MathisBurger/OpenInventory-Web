@@ -2,7 +2,8 @@ import {Component, Inject, Injector, OnInit} from '@angular/core';
 import {Md5} from 'ts-md5/dist/md5';
 import {RestAPIService} from "../../services/rest-api.service";
 import {PopupWindowService} from "../../components/popup-window/popup-window.service";
-import {CookieHandler} from "../../../classes/cookie-handler";
+
+declare  var $: any;
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,10 @@ export class LoginComponent implements OnInit {
     public popup: PopupWindowService
   ) { }
 
+  twoFactorToken: string;
+  twoFactorCode: string;
+  username: string;
+
   // no init actions
   ngOnInit(): void {}
 
@@ -26,9 +31,29 @@ export class LoginComponent implements OnInit {
     // generates MD5 hash of password
     password = Md5.hashStr(password).toString();
 
+    // opens 2FA modal, if 2fa is enabled
     this.api.login(username, password).subscribe(data => {
       if (data == 'OK') {
         location.href = '/dashboard';
+      } else if (data == 'FAILED') {
+        this.popup.showAsComponent('401 Unauthorized', '#d41717');
+        this.popup.closePopup(1500);
+      } else {
+        this.username = username;
+        this.twoFactorToken = data;
+        $('#2fa-code-modal').modal({
+          show: true,
+          focus: true
+        });
+      }
+    });
+  }
+
+  twoFactor(): void {
+    this.api.twoFactorAuth(this.twoFactorToken, this.username, this.twoFactorCode).subscribe(data => {
+      console.log(data);
+      if (data == 'OK') {
+        //location.href = '/dashboard';
       } else {
         this.popup.showAsComponent('401 Unauthorized', '#d41717');
         this.popup.closePopup(1500);

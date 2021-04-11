@@ -13,6 +13,7 @@ import {GetAllTablesResponse} from "../models/get-all-tables-response";
 import {ListUserResponse} from "../models/list-user-response";
 import {ListAllPermsOfUser} from "../models/list-all-perms-of-user";
 import { AccessToken } from '../models/access-token';
+import {compareSegments} from "@angular/compiler-cli/src/ngtsc/sourcemaps/src/segment_marker";
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,7 @@ export class RestAPIService {
   // handles the error of login functions
   // returns "FAILED" as observable
   private handleAuthError(error: HttpErrorResponse): Observable<string> {
+    console.log(error.message);
     return new Observable<string>(subscriber => {
       subscriber.next('FAILED');
       subscriber.complete();
@@ -58,6 +60,8 @@ export class RestAPIService {
     })
   }
 
+  // This function executes the login functions
+  // and returns the login status
   login(username: string, password: string): Observable<string>{
     return this.client.post<any>(
       this.BASE_URL + '/auth/login',
@@ -66,6 +70,18 @@ export class RestAPIService {
         password: password
       },
       {withCredentials: true, responseType: 'text' as 'json'}
+    ).pipe(catchError(this.handleAuthError));
+  }
+
+  // This function sends the 2fa code to the server to
+  // verify it
+  twoFactorAuth(token: string, username: string, code: string): Observable<string> {
+    let params = new HttpParams().append('token', token)
+      .append('username', username).append('code', code);
+    return this.client.post<any>(
+      this.BASE_URL + '/auth/2fa',
+      {},
+      {params, responseType: 'text' as 'json'}
     ).pipe(catchError(this.handleAuthError));
   }
 
@@ -86,7 +102,6 @@ export class RestAPIService {
       headers: new HttpHeaders({'Authorization': 'accessToken ' + this.sessionToken})
     }).pipe(catchError(this.handleAuthError));
   }
-
 
   // creates a table with given values
   createTable(name: string, tuples: any, minPermLvl: number): Observable<DefaultResponse> {
@@ -318,4 +333,5 @@ export class RestAPIService {
       headers: new HttpHeaders({'Authorization': 'accessToken ' + this.sessionToken})
     }).pipe(catchError(this.handleError));
   }
+
 }

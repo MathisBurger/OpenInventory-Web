@@ -8,6 +8,7 @@ import {UserComponent} from "./routes/user/user.component";
 import {NewTableComponent} from "./routes/new-table/new-table.component";
 import {TableViewComponent} from "./routes/table-view/table-view.component";
 import {SystemInfoComponent} from "./routes/system-info/system-info.component";
+import {SettingsComponent} from "./routes/settings/settings.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
@@ -18,7 +19,9 @@ const routes: Routes = [
   {path: 'view-table', component: TableViewComponent},
   {path: 'permissions', component: PermissionsComponent},
   {path: 'user', component: UserComponent},
-  {path: 'system-information', component: SystemInfoComponent}
+  {path: 'system-information', component: SystemInfoComponent},
+  {path: 'settings', component: SettingsComponent},
+  {path: '**', redirectTo: 'dashboard', pathMatch: 'full'}
 ];
 
 @NgModule({

@@ -15,6 +15,8 @@ import { SystemInfoComponent } from './routes/system-info/system-info.component'
 import {RestAPIService} from "./services/rest-api.service";
 import {HttpClientModule} from "@angular/common/http";
 import { PopupWindowComponent } from './components/popup-window/popup-window.component';
+import { SettingsComponent } from './routes/settings/settings.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -28,13 +30,15 @@ import { PopupWindowComponent } from './components/popup-window/popup-window.com
     PermissionsComponent,
     TableViewComponent,
     SystemInfoComponent,
-    PopupWindowComponent
+    PopupWindowComponent,
+    SettingsComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule
+    ],
   providers: [
     {
       provide: 'RestAPIService',
