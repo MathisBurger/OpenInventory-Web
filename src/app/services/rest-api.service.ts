@@ -14,6 +14,7 @@ import {ListUserResponse} from "../models/list-user-response";
 import {ListAllPermsOfUser} from "../models/list-all-perms-of-user";
 import { AccessToken } from '../models/access-token';
 import {compareSegments} from "@angular/compiler-cli/src/ngtsc/sourcemaps/src/segment_marker";
+import {SecurityService} from "./security.service";
 
 @Injectable({
   providedIn: 'root'
@@ -62,13 +63,14 @@ export class RestAPIService {
 
   // This function executes the login functions
   // and returns the login status
-  login(username: string, password: string): Observable<string>{
+  async login(username: string, password: string): Promise<Observable<string>>{
+    let bdy: string = await new SecurityService().encrypt(JSON.stringify({
+      username: username,
+      password: password
+    }));
     return this.client.post<any>(
       this.BASE_URL + '/auth/login',
-      {
-        username: username,
-        password: password
-      },
+        bdy,
       {withCredentials: true, responseType: 'text' as 'json'}
     ).pipe(catchError(this.handleAuthError));
   }
@@ -104,12 +106,13 @@ export class RestAPIService {
   }
 
   // creates a table with given values
-  createTable(name: string, tuples: any, minPermLvl: number): Observable<DefaultResponse> {
-    return this.client.post<DefaultResponse>(this.BASE_URL + '/table-management/createTable', {
+  async createTable(name: string, tuples: any, minPermLvl: number): Promise<Observable<DefaultResponse>> {
+    let bdy: string = await new SecurityService().encrypt(JSON.stringify({
       table_name: name,
       row_config: tuples.toString(),
       min_perm_lvl: minPermLvl
-    }, {
+    }));
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/table-management/createTable', bdy, {
       withCredentials: true,
       headers: new HttpHeaders({'Authorization': 'accessToken ' + this.sessionToken})
     }).pipe(catchError(this.handleError));
@@ -124,23 +127,25 @@ export class RestAPIService {
   }
 
   // creates permission group from values
-  createPermissionGroup(perm_name: string, perm_color: string, perm_lvl: number): Observable<DefaultResponse> {
-    return this.client.post<DefaultResponse>(this.BASE_URL + '/permission-management/createPermissionGroup', {
+  async createPermissionGroup(perm_name: string, perm_color: string, perm_lvl: number): Promise<Observable<DefaultResponse>> {
+    let bdy: string = await new SecurityService().encrypt(JSON.stringify({
       permission_info: {
         name: perm_name,
         color_code: perm_color,
         permission_level: perm_lvl
       }
-    }, {
+    }));
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/permission-management/createPermissionGroup', bdy, {
       withCredentials: true,
       headers: new HttpHeaders({'Authorization': 'accessToken ' + this.sessionToken})
     }).pipe(catchError(this.handleError));
   }
 
-  deletePermissionGroup(group_name: string): Observable<DefaultResponse> {
-    return this.client.post<DefaultResponse>(this.BASE_URL + '/permission-management/deletePermissionGroup', {
+  async deletePermissionGroup(group_name: string): Promise<Observable<DefaultResponse>> {
+    let bdy: string = await new SecurityService().encrypt(JSON.stringify({
       group_name: group_name
-    }, {
+    }));
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/permission-management/deletePermissionGroup', bdy, {
       withCredentials: true,
       headers: new HttpHeaders({'Authorization': 'accessToken ' + this.sessionToken})
     }).pipe(catchError(this.handleError));
@@ -173,35 +178,38 @@ export class RestAPIService {
   }
 
   // edits table entry
-  editTableEntry(tablename: string, objectID: number, row: any): Observable<DefaultResponse> {
-    return this.client.patch<DefaultResponse>(this.BASE_URL + '/table-management/editTableEntry', {
+  async editTableEntry(tablename: string, objectID: number, row: any): Promise<Observable<DefaultResponse>> {
+    let bdy: string = await new SecurityService().encrypt(JSON.stringify({
       table_name: tablename,
       object_id: objectID,
       row: row
-    }, {
+    }));
+    return this.client.patch<DefaultResponse>(this.BASE_URL + '/table-management/editTableEntry', bdy, {
       withCredentials: true,
       headers: new HttpHeaders({'Authorization': 'accessToken ' + this.sessionToken})
     }).pipe(catchError(this.handleError));
   }
 
   // updates table name
-  updateTableName(oldName: string, newName: string): Observable<DefaultResponse> {
-    return this.client.patch<DefaultResponse>(this.BASE_URL + '/table-management/renameTable', {
-            table_name: oldName,
-            new_name: newName
-          }, {
+  async updateTableName(oldName: string, newName: string): Promise<Observable<DefaultResponse>> {
+    let bdy: string = await new SecurityService().encrypt(JSON.stringify({
+      table_name: oldName,
+      new_name: newName
+    }));
+    return this.client.patch<DefaultResponse>(this.BASE_URL + '/table-management/renameTable', bdy, {
             withCredentials: true,
             headers: new HttpHeaders({'Authorization': 'accessToken ' + this.sessionToken})
           }).pipe(catchError(this.handleError));
   }
 
   // updates column name
-  updateColumnName(tablename: string, oldName: string, newName: string): Observable<DefaultResponse> {
-    return this.client.patch<DefaultResponse>(this.BASE_URL + '/table-management/renameTableColumn', {
+  async updateColumnName(tablename: string, oldName: string, newName: string): Promise<Observable<DefaultResponse>> {
+    let bdy: string = await new SecurityService().encrypt(JSON.stringify({
       table_name: tablename,
       old_name: oldName,
       new_name: newName
-    }, {
+    }));
+    return this.client.patch<DefaultResponse>(this.BASE_URL + '/table-management/renameTableColumn', bdy, {
       withCredentials: true,
       headers: new HttpHeaders({'Authorization': 'accessToken ' + this.sessionToken})
     }).pipe(catchError(this.handleError));
@@ -218,32 +226,35 @@ export class RestAPIService {
   }
 
   // adds entry to table
-  addTableEntry(tablename: string, entry: any): Observable<DefaultResponse> {
-    return this.client.post<DefaultResponse>(this.BASE_URL + '/table-management/AddTableEntry', {
+  async addTableEntry(tablename: string, entry: any): Promise<Observable<DefaultResponse>> {
+    let bdy: string = await new SecurityService().encrypt(JSON.stringify({
       table_name: tablename,
       row: entry
-    }, {
+    }));
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/table-management/AddTableEntry', bdy, {
       withCredentials: true,
       headers: new HttpHeaders({'Authorization': 'accessToken ' + this.sessionToken})
     }).pipe(catchError(this.handleError));
   }
 
   // removes entry from table
-  removeTableEntry(tablename: string, rowID: number): Observable<DefaultResponse> {
-    return this.client.post<DefaultResponse>(this.BASE_URL + '/table-management/RemoveTableEntry', {
+  async removeTableEntry(tablename: string, rowID: number): Promise<Observable<DefaultResponse>> {
+    let bdy: string = await new SecurityService().encrypt(JSON.stringify({
       table_name: tablename,
       row_id: rowID
-    }, {
+    }));
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/table-management/RemoveTableEntry', bdy, {
       withCredentials: true,
       headers: new HttpHeaders({'Authorization': 'accessToken ' + this.sessionToken})
     }).pipe(catchError(this.handleError));
   }
 
   // deletes table
-  deleteTable(name: string): Observable<DefaultResponse> {
-    return this.client.post<DefaultResponse>(this.BASE_URL + '/table-management/DeleteTable', {
-      table_name: name,
-    }, {
+  async deleteTable(name: string): Promise<Observable<DefaultResponse>> {
+    let bdy: string = await new SecurityService().encrypt(JSON.stringify({
+      table_name: name
+    }));
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/table-management/DeleteTable', bdy, {
       withCredentials: true,
       headers: new HttpHeaders({'Authorization': 'accessToken ' + this.sessionToken})
     }).pipe(catchError(this.handleError));
@@ -258,11 +269,12 @@ export class RestAPIService {
   }
 
   // edit minimum permission level
-  editTableMinPermLvl(name: string, lvl: number): Observable<DefaultResponse> {
-    return this.client.patch<DefaultResponse>(this.BASE_URL + '/permission-management/editTableMinPermLvl', {
-        table_name: name,
-        new_lvl: lvl
-      }, {
+  async editTableMinPermLvl(name: string, lvl: number): Promise<Observable<DefaultResponse>> {
+    let bdy: string = await new SecurityService().encrypt(JSON.stringify({
+      table_name: name,
+      new_lvl: lvl
+    }));
+    return this.client.patch<DefaultResponse>(this.BASE_URL + '/permission-management/editTableMinPermLvl', bdy, {
         withCredentials: true,
         headers: new HttpHeaders({'Authorization': 'accessToken ' + this.sessionToken})
       }).pipe(catchError(this.handleError));
@@ -287,30 +299,32 @@ export class RestAPIService {
   }
 
   // adds user to permission
-  addUserToPermissionGroup(permission: string, username: string): Observable<DefaultResponse> {
-    return this.client.post<DefaultResponse>(this.BASE_URL + '/permission-management/addUserToPermissionGroup', {
-        permission: permission,
-        user: username
-      }, {
+  async addUserToPermissionGroup(permission: string, username: string): Promise<Observable<DefaultResponse>> {
+    let bdy: string = await new SecurityService().encrypt(JSON.stringify({
+      permission: permission,
+      user: username
+    }));
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/permission-management/addUserToPermissionGroup', bdy, {
         withCredentials: true,
         headers: new HttpHeaders({'Authorization': 'accessToken ' + this.sessionToken})
       }).pipe(catchError(this.handleError));
   }
 
   // removes permission from user
-  removeUserFromPermissionGroup(user: string, perm: string): Observable<DefaultResponse> {
-    return this.client.post<DefaultResponse>(this.BASE_URL + '/permission-management/removeUserFromPermissionGroup', {
+  async removeUserFromPermissionGroup(user: string, perm: string): Promise<Observable<DefaultResponse>> {
+    let bdy: string = await new SecurityService().encrypt(JSON.stringify({
       permission_name: perm,
       user: user
-    }, {
+    }));
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/permission-management/removeUserFromPermissionGroup', bdy, {
       withCredentials: true,
       headers: new HttpHeaders({'Authorization': 'accessToken ' + this.sessionToken})
     }).pipe(catchError(this.handleError));
   }
 
   // adds user to system
-  addUser(username: string, password: string, root: boolean, mail: string, status: string): Observable<DefaultResponse> {
-    return this.client.post<DefaultResponse>(this.BASE_URL + '/user-management/AddUser', {
+  async addUser(username: string, password: string, root: boolean, mail: string, status: string): Promise<Observable<DefaultResponse>> {
+    let bdy: string = await new SecurityService().encrypt(JSON.stringify({
       user: {
         username: username,
         password: password,
@@ -318,17 +332,19 @@ export class RestAPIService {
         mail: mail,
         status: status
       }
-    }, {
+    }));
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/user-management/AddUser', bdy, {
       withCredentials: true,
       headers: new HttpHeaders({'Authorization': 'accessToken ' + this.sessionToken})
     }).pipe(catchError(this.handleError));
   }
 
   // deletes user from system
-  deleteUser(name: string): Observable<DefaultResponse> {
-    return this.client.post<DefaultResponse>(this.BASE_URL + '/user-management/DeleteUser', {
+  async deleteUser(name: string): Promise<Observable<DefaultResponse>> {
+    let bdy: string = await new SecurityService().encrypt(JSON.stringify({
       user: name
-    }, {
+    }));
+    return this.client.post<DefaultResponse>(this.BASE_URL + '/user-management/DeleteUser', bdy, {
       withCredentials: true,
       headers: new HttpHeaders({'Authorization': 'accessToken ' + this.sessionToken})
     }).pipe(catchError(this.handleError));

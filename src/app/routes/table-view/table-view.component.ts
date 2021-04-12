@@ -120,15 +120,14 @@ export class TableViewComponent implements OnInit {
     }
 
     // call api
-    this.api.editTableEntry(this.table_name, this.getIdFromRow(this.edit_row), map)
-      .subscribe(data => {
-        if (data.message == 'Successfully updated entry') {
-          location.reload();
-        } else {
-          this.popup.showAsComponent(data.message, data.alert);
-          this.popup.closePopup(1000);
-        }
-      });
+    this.api.editTableEntry(this.table_name, this.getIdFromRow(this.edit_row), map).then(res => res.subscribe(data => {
+      if (data.message == 'Successfully updated entry') {
+        location.reload();
+      } else {
+        this.popup.showAsComponent(data.message, data.alert);
+        this.popup.closePopup(1000);
+      }
+    }));
   }
 
   // calculates width for every table column
@@ -167,29 +166,27 @@ export class TableViewComponent implements OnInit {
 
   // updates table-name
   updateTableName(name: string): void {
-    this.api.updateTableName(this.table_name, name)
-      .subscribe(data => {
-        if (data.message == 'Successfully updated tablename') {
-          new CookieHandler().setCookie('active-table', name, 1);
-          location.reload();
-        } else {
-          this.popup.showAsComponent(data.message, data.alert);
-          this.popup.closePopup(1000);
-        }
-      });
+    this.api.updateTableName(this.table_name, name).then(res => res.subscribe(data => {
+      if (data.message == 'Successfully updated tablename') {
+        new CookieHandler().setCookie('active-table', name, 1);
+        location.reload();
+      } else {
+        this.popup.showAsComponent(data.message, data.alert);
+        this.popup.closePopup(1000);
+      }
+    }));
   }
 
   // updates column name on button click
   updateColumnName(oldName: string, newName: string): void {
-    this.api.updateColumnName(this.table_name, oldName, newName)
-      .subscribe(data => {
-        if (data.message == 'Successfully changed column name') {
-          location.reload();
-        } else {
-          this.popup.showAsComponent(data.message, data.alert);
-          this.popup.closePopup(1000);
-        }
-      })
+    this.api.updateColumnName(this.table_name, oldName, newName).then(res => res.subscribe(data => {
+      if (data.message == 'Successfully changed column name') {
+        location.reload();
+      } else {
+        this.popup.showAsComponent(data.message, data.alert);
+        this.popup.closePopup(1000);
+      }
+    }));
   }
 
   // switch handler
@@ -228,29 +225,27 @@ export class TableViewComponent implements OnInit {
       }
     }
 
-    this.api.addTableEntry(this.table_name, json)
-      .subscribe(data => {
-        this.popup.showAsComponent(data.message, data.alert);
-        this.popup.closePopup(1000);
-        new CookieHandler().setCookie('redirect-table', 'true', 365)
-      });
+    this.api.addTableEntry(this.table_name, json).then(res => res.subscribe(data => {
+      this.popup.showAsComponent(data.message, data.alert);
+      this.popup.closePopup(1000);
+      new CookieHandler().setCookie('redirect-table', 'true', 365)
+    }));
 
   }
 
   // remove table entry
   removeEntry(id: number): void {
-    this.api.removeTableEntry(this.table_name, id)
-      .subscribe(data => {
-        this.popup.showAsComponent(data.message, data.alert);
-        this.popup.closePopup(1000);
-      });
+    this.api.removeTableEntry(this.table_name, id).then(res => res.subscribe(data => {
+      this.popup.showAsComponent(data.message, data.alert);
+      this.popup.closePopup(1000);
+    }));
     new CookieHandler().setCookie('redirect-table', 'true', 365)
     location.reload();
   }
 
   // delete table
   deleteTable(): void {
-    this.api.deleteTable(this.table_name).subscribe();
+    this.api.deleteTable(this.table_name).then(res => res.subscribe());
     location.reload();
   }
 

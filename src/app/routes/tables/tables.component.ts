@@ -51,15 +51,14 @@ export class TablesComponent implements OnInit {
 
   // deletes table
   deleteTable(name: string): void {
-    this.api.deleteTable(name)
-      .subscribe(data => {
-          if (data.message == 'Successfully deleted table') {
-            location.reload();
-          } else {
-            this.popup.showAsComponent(data.message, data.alert);
-            this.popup.closePopup(1000);
-          }
-      })
+    this.api.deleteTable(name).then(res => res.subscribe(data => {
+      if (data.message == 'Successfully deleted table') {
+        location.reload();
+      } else {
+        this.popup.showAsComponent(data.message, data.alert);
+        this.popup.closePopup(1000);
+      }
+    }));
   }
 
   // loads all permissions of table
@@ -76,11 +75,10 @@ export class TablesComponent implements OnInit {
 
   // updates minimum permission level
   updateMinPermlvl(newLvl: string): void {
-    this.api.editTableMinPermLvl(this.active_table, +newLvl)
-      .subscribe(data => {
-        this.popup.showAsComponent(data.message, data.alert);
-        this.popup.closePopup(1000);
-      })
+    this.api.editTableMinPermLvl(this.active_table, +newLvl).then(res => res.subscribe(data => {
+      this.popup.showAsComponent(data.message, data.alert);
+      this.popup.closePopup(1000);
+    }));
   }
 
 

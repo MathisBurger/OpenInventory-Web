@@ -83,29 +83,27 @@ export class UserComponent implements OnInit {
   // adds permission to user
   addPermissionToUser(perm: string): void {
 
-    this.api.addUserToPermissionGroup(perm, this.selected_user)
-      .subscribe(data => {
-          if (data.message == 'User added to permissiongroup') {
-            this.loadPermissions(this.selected_user);
-          } else {
-            this.popup.showAsComponent(data.message, data.alert);
-            this.popup.closePopup(1000);
-          }
-      });
+    this.api.addUserToPermissionGroup(perm, this.selected_user).then(res => res.subscribe(data => {
+      if (data.message == 'User added to permissiongroup') {
+        this.loadPermissions(this.selected_user);
+      } else {
+        this.popup.showAsComponent(data.message, data.alert);
+        this.popup.closePopup(1000);
+      }
+    }));
   }
 
   // remove permission from user
   removePermissionFromUser(perm: string): void {
 
-    this.api.removeUserFromPermissionGroup(this.selected_user, perm)
-      .subscribe(data => {
-        if (data.message == 'Successfully removed permission from user') {
-          this.loadPermissions(this.selected_user);
-        } else {
-          this.popup.showAsComponent(data.message, data.alert);
-          this.popup.closePopup(1000);
-        }
-      })
+    this.api.removeUserFromPermissionGroup(this.selected_user, perm).then(res => res.subscribe(data => {
+      if (data.message == 'Successfully removed permission from user') {
+        this.loadPermissions(this.selected_user);
+      } else {
+        this.popup.showAsComponent(data.message, data.alert);
+        this.popup.closePopup(1000);
+      }
+    }));
   }
 
 
@@ -141,15 +139,14 @@ export class UserComponent implements OnInit {
     }
     if (pwd == retype_pwd) {
 
-      this.api.addUser(username, pwd, root, mail, final_status)
-        .subscribe(data => {
-          if (data.message == 'Successfully added user') {
-            location.reload();
-          } else {
-            this.popup.showAsComponent(data.message, data.alert);
-            this.popup.closePopup(1000);
-          }
-        })
+      this.api.addUser(username, pwd, root, mail, final_status).then(res => res.subscribe(data => {
+        if (data.message == 'Successfully added user') {
+          location.reload();
+        } else {
+          this.popup.showAsComponent(data.message, data.alert);
+          this.popup.closePopup(1000);
+        }
+      }));
     } else {
       this.popup.showAsComponent('passwords are not matching', '#d41717');
       this.popup.closePopup(1000);
@@ -159,15 +156,14 @@ export class UserComponent implements OnInit {
   // deletes user from system
   deleteUser(name: string): void {
 
-    this.api.deleteUser(name)
-      .subscribe(data => {
-        if (data.message == 'Successfully deleted user') {
-          location.reload();
-        } else {
-          this.popup.showAsComponent(data.message, data.alert);
-          this.popup.closePopup(1000);
-        }
-      })
+    this.api.deleteUser(name).then(res => res.subscribe(data => {
+      if (data.message == 'Successfully deleted user') {
+        location.reload();
+      } else {
+        this.popup.showAsComponent(data.message, data.alert);
+        this.popup.closePopup(1000);
+      }
+    }));
   }
 
 }

@@ -64,11 +64,10 @@ export class NewTableComponent implements OnInit {
     }
 
     // call API
-    this.api.createTable(tablename, tuples, +minpermlvl)
-      .subscribe(data => {
-        this.popup.showAsComponent(data.message, data.alert);
-        this.popup.closePopup(1000);
-      });
+    this.api.createTable(tablename, tuples, +minpermlvl).then(res => res.subscribe(data => {
+      this.popup.showAsComponent(data.message, data.alert);
+      this.popup.closePopup(1000);
+    }));
   }
 
 }

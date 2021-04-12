@@ -65,15 +65,14 @@ export class PermissionsComponent implements OnInit {
     perm_name = 'permission.' + perm_name;
 
     // call API
-    this.api.createPermissionGroup(perm_name, perm_color, +perm_lvl)
-      .subscribe(data => {
-        if (data.message == 'Created permission-group') {
-          location.reload();
-        } else {
-          this.popup.showAsComponent(data.message, data.alert);
-          this.popup.closePopup(1000);
-        }
-      })
+    this.api.createPermissionGroup(perm_name, perm_color, +perm_lvl).then(res => res.subscribe(data => {
+      if (data.message == 'Created permission-group') {
+        location.reload();
+      } else {
+        this.popup.showAsComponent(data.message, data.alert);
+        this.popup.closePopup(1000);
+      }
+    }));
   }
 
   // deletes permission group on button click
@@ -83,15 +82,14 @@ export class PermissionsComponent implements OnInit {
     let real_name = name.split('.')[1];
 
     // call API
-    this.api.deletePermissionGroup(real_name)
-      .subscribe(data => {
-        if (data.message == 'Successfully deleted PermissionGroup') {
-          location.reload();
-        } else {
-          this.popup.showAsComponent(data.message, data.alert);
-          this.popup.closePopup(1500);
-        }
-      });
+    this.api.deletePermissionGroup(real_name).then(res => res.subscribe(data => {
+      if (data.message == 'Successfully deleted PermissionGroup') {
+        location.reload();
+      } else {
+        this.popup.showAsComponent(data.message, data.alert);
+        this.popup.closePopup(1500);
+      }
+    }));
   }
 
 }

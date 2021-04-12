@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     password = Md5.hashStr(password).toString();
 
     // opens 2FA modal, if 2fa is enabled
-    this.api.login(username, password).subscribe(data => {
+    this.api.login(username, password).then(res => res.subscribe(data => {
       if (data == 'OK') {
         location.href = '/dashboard';
       } else if (data == 'FAILED') {
@@ -46,12 +46,11 @@ export class LoginComponent implements OnInit {
           focus: true
         });
       }
-    });
+    }));
   }
 
   twoFactor(): void {
     this.api.twoFactorAuth(this.twoFactorToken, this.username, this.twoFactorCode).subscribe(data => {
-      console.log(data);
       if (data == 'OK') {
         //location.href = '/dashboard';
       } else {
