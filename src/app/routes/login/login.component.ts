@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
   twoFactor(): void {
     this.api.twoFactorAuth(this.twoFactorToken, this.username, this.twoFactorCode).subscribe(data => {
       if (data == 'OK') {
-        //location.href = '/dashboard';
+        location.href = '/dashboard';
       } else {
         this.popup.showAsComponent('401 Unauthorized', '#d41717');
         this.popup.closePopup(1500);
